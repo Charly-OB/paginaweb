@@ -66,7 +66,7 @@ export default function OutcomesBased({ lang }: OutcomesBasedProps) {
         status: "bad"
       },
       juanCarlos: {
-        text: "Direct Channel. Ping straight to the developer writing your database models on WhatsApp.",
+        text: "Direct channel with the developer building your database models and interface logic.",
         status: "good"
       }
     },
@@ -147,7 +147,7 @@ export default function OutcomesBased({ lang }: OutcomesBasedProps) {
         status: "bad"
       },
       juanCarlos: {
-        text: "Canal Directo. Comunicación ágil por WhatsApp directamente con el ingeniero.",
+        text: "Canal directo con el desarrollador que programa la lógica, la interfaz y la base de datos.",
         status: "good"
       }
     },
@@ -344,7 +344,7 @@ export default function OutcomesBased({ lang }: OutcomesBasedProps) {
             rel="noreferrer"
             className="px-5 py-3 bg-brand-violet hover:bg-brand-orange-dark text-brand-yellow hover:text-brand-paper font-bold text-xs rounded-lg transition-all duration-150 flex items-center gap-2 tracking-wide shrink-0 font-mono shadow"
           >
-            <span>{lang === "en" ? "BOOK DIRECT ROADMAP" : "DEFINIR RUTA DE SOLUCIÓN"}</span>
+            <span>{lang === "en" ? "REVIEW PROJECT PLANNER" : "VER PLANIFICADOR"}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>

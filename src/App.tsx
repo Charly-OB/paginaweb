@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import { 
   Menu, 
   X, 
@@ -11,15 +11,10 @@ import {
   Sparkles, 
   MessageSquare,
   ChevronRight,
-  ExternalLink,
   Smartphone,
   Sliders,
   CheckCircle,
   Clock,
-  Heart,
-  BookOpen,
-  Send,
-  HelpCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import InteractiveLaptop from "./components/InteractiveLaptop";
@@ -30,8 +25,6 @@ export default function App() {
   const [lang, setLang] = useState<"es" | "en">("es");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedTech, setSelectedTech] = useState<string>("React");
-  const [formData, setFormData] = useState({ name: "", businessType: "", problem: "" });
-  const [contactSuccess, setContactSuccess] = useState(false);
 
   // Stack of tools descriptions
   const techStack = lang === "en" ? [
@@ -107,31 +100,6 @@ export default function App() {
       color: "bg-brand-orange-dark/10 text-brand-orange-dark border-brand-orange-dark/30"
     }
   ];
-
-  const handleQuickForm = (e: FormEvent) => {
-    e.preventDefault();
-    setContactSuccess(true);
-    setTimeout(() => {
-      // Create and open WhatsApp with quick form values
-      const text = lang === "en"
-        ? `Hi Juan Carlos! I read your portfolio and completed your quick query draft form:
-----------------------------------
-👤 My Name: ${formData.name || "Interested partner"}
-🏢 Business Sector / Industry: ${formData.businessType || "To be defined"}
-🚨 Target Automation: ${formData.problem || "I want to automate processes / measure metrics"}
-----------------------------------
-I would love to schedule a diagnostic review for a custom functional prototype.`
-        : `¡Hola Juan Carlos! He leído tu portafolio y completado el formulario rápido:
-----------------------------------
-👤 Mi Nombre: ${formData.name || "Interesado"}
-🏢 Tipo de Negocio: ${formData.businessType || "Por definir"}
-🚨 Problema: ${formData.problem || "Quiero automatizar / medir datos"}
-----------------------------------
-Me gustaría definir un prototipo funcional para mi negocio.`;
-      window.open(`https://wa.me/526462865241?text=${encodeURIComponent(text)}`, "_blank");
-      setContactSuccess(false);
-    }, 1200);
-  };
 
   const selectedTechObj = techStack.find(t => t.name === selectedTech) || techStack[0];
 
@@ -310,30 +278,26 @@ Me gustaría definir un prototipo funcional para mi negocio.`;
                   <p className="text-brand-slate leading-relaxed text-[11px]">
                     {lang === "en" ? (
                       <>
-                        On-site support in <strong className="text-brand-violet">Ensenada, Baja California</strong>. Software engineering and database consulting with national reach across Mexico.
+                        Direct software engineering and database consulting, with practical support for teams that need clarity before adding more tools.
                       </>
                     ) : (
                       <>
-                        Soporte presencial en <strong className="text-brand-violet">Ensenada, Baja California</strong>. Proyectos de desarrollo y consultoría de analítica con alcance nacional para todo México.
+                        Desarrollo de software y consultoría de datos con soporte práctico para equipos que necesitan claridad antes de agregar más herramientas.
                       </>
                     )}
                   </p>
                 </div>
               </div>
 
-              {/* Sidebar Footer call to action */}
-              <div className="border-t border-brand-violet/10 pt-4 space-y-3">
-                <a
-                  href="https://wa.me/526462865241"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-orange-dark text-brand-paper hover:bg-brand-orange-light rounded-lg font-bold text-xs transition-colors shadow-sm"
-                >
-                  <MessageSquare className="w-4 h-4 text-brand-yellow fill-brand-yellow" />
-                  <span>{lang === "en" ? "Start via WhatsApp" : "Iniciar vía WhatsApp"}</span>
-                </a>
-                <div className="text-center text-[10px] font-mono text-brand-slate">
-                  Ensenada · Todo México · © 2026
+              {/* Sidebar footer: compact identity note */}
+              <div className="border-t border-brand-violet/10 pt-4 space-y-2">
+                <p className="text-[11px] leading-relaxed text-brand-slate">
+                  {lang === "en"
+                    ? "Independent work, direct technical ownership, and practical scopes without agency layers."
+                    : "Trabajo independiente, trato directo y alcances prácticos sin capas de agencia."}
+                </p>
+                <div className="text-[10px] font-mono text-brand-slate">
+                  Ensenada, BC · © 2026
                 </div>
               </div>
             </motion.div>
@@ -408,8 +372,8 @@ Me gustaría definir un prototipo funcional para mi negocio.`;
                 {/* Hero subtext with exact requested phrases */}
                 <p className="text-sm sm:text-base text-brand-slate leading-relaxed max-w-full sm:max-w-xl">
                   {lang === "en"
-                    ? "I design and develop custom web applications, SaaS, PWAs, and database solutions to optimize your business operations and insights in Ensenada and across Mexico."
-                    : "Desarrollo aplicaciones web a la medida, SaaS, PWAs y soluciones analíticas para optimizar tu negocio en Ensenada y todo México."}
+                    ? "I design and develop custom web applications, SaaS, PWAs, and data solutions to optimize business operations and decision-making."
+                    : "Desarrollo aplicaciones web a la medida, SaaS, PWAs y soluciones analíticas para optimizar operación, datos y decisiones."}
                 </p>
 
                 {/* Subtag lists showing project capabilities */}
@@ -696,7 +660,7 @@ Me gustaría definir un prototipo funcional para mi negocio.`;
                 </div>
 
                 <div className="pl-2 pt-6 mt-6 border-t border-brand-violet/10 flex justify-between items-center text-[11px] font-mono text-brand-slate">
-                  <span>Ensenada, BC · {lang === "en" ? "All of Mexico" : "Todo México"}</span>
+                  <span>{lang === "en" ? "Stable architecture · practical delivery" : "Arquitectura estable · entrega práctica"}</span>
                   <span className="text-brand-orange-dark font-bold">{lang === "en" ? "100% High Performance Code" : "100% Código de Alta Performance"}</span>
                 </div>
 
@@ -862,7 +826,7 @@ Me gustaría definir un prototipo funcional para mi negocio.`;
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-3.5 text-brand-paper">
                       <span className="text-[9px] font-mono tracking-widest text-brand-yellow font-bold">04 // LOCAL PRESENCE</span>
-                      <h5 className="font-display font-bold text-xs">Ensenada · Todo México</h5>
+                      <h5 className="font-display font-bold text-xs">{lang === "en" ? "Local context" : "Contexto local"}</h5>
                     </div>
                   </div>
 
@@ -954,108 +918,47 @@ Me gustaría definir un prototipo funcional para mi negocio.`;
           </div>
         </section>
 
-        {/* Section 7: QUICK FOOTER FORM INTAKE - interactive */}
-        <section className="py-12 sm:py-20 bg-brand-violet text-brand-paper px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Section 7: concise closing summary */}
+        <section className="py-12 sm:py-16 bg-brand-violet text-brand-paper px-4 sm:px-6 lg:px-8 relative overflow-hidden">
           
-          {/* Top color graphic accent separator */}
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-brand-yellow via-brand-orange-light to-brand-orange-dark"></div>
 
-          <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-            
-            <div className="space-y-3">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
+            <div className="md:col-span-7 space-y-3">
               <span className="text-xs font-mono text-brand-yellow uppercase tracking-widest block font-bold">
-                {lang === "en" ? "HAVE AN IDEA OR A SYSTEM BOTTLENECK TO CRASH?" : "¿TIENES UNA IDEA O UN PROBLEMA PARA RESOLVER?"}
+                {lang === "en" ? "CLEAR SCOPE, USEFUL SOFTWARE" : "ALCANCE CLARO, SOFTWARE ÚTIL"}
               </span>
-              <h3 className="text-2xl sm:text-4xl font-display font-bold text-brand-paper tracking-tight max-w-2xl mx-auto leading-tight">
-                {lang === "en" ? "Let us dialogue and map your clear actionable v1." : "Hablemos y diseñemos tu primera versión concreta."}
+              <h3 className="text-2xl sm:text-4xl font-display font-bold text-brand-paper tracking-tight leading-tight">
+                {lang === "en"
+                  ? "The goal is not more technology. It is a cleaner operation."
+                  : "La meta no es tener más tecnología. Es operar con más claridad."}
               </h3>
-              <p className="text-sm text-brand-slate max-w-xl mx-auto text-brand-bg/85">
-                {lang === "en" 
-                  ? "Describe what you wish to develop, automate, or analyze. I will return with factual feasibility."
-                  : "Cuéntame qué quieres construir, automatizar o medir. Responderé con una viabilidad técnica realista."}
+              <p className="text-sm text-brand-bg/80 leading-relaxed max-w-2xl">
+                {lang === "en"
+                  ? "If your business has repeated manual work, scattered information, or decisions made from incomplete data, the first step is to define one useful version that can be built, tested, and improved."
+                  : "Si tu negocio tiene trabajo manual repetido, información dispersa o decisiones tomadas con datos incompletos, el primer paso es definir una versión útil que se pueda construir, probar y mejorar."}
               </p>
             </div>
 
-            {/* Quick Consultation Form box */}
-            <div className="max-w-xl mx-auto bg-[#23122B] border border-brand-orange-dark/30 rounded-xl p-5 sm:p-7 text-left space-y-4 shadow-xl">
-              <span className="text-[10px] sm:text-xs font-mono text-brand-yellow font-bold uppercase tracking-wider block border-b border-brand-violet pb-2">
-                {lang === "en" ? "✉ INTERACTIVE DIAGNOSIS BRIEF DRAFT" : "✉ FORMULARIO RÁPIDO INTERACTIVO DE DIAGNÓSTICO"}
-              </span>
-              
-              <form onSubmit={handleQuickForm} className="space-y-4">
-                <div>
-                  <label className="text-[11px] font-mono text-brand-bg/80 block mb-1">
-                    {lang === "en" ? "My Name or Business:" : "Mi nombre o negocio:"}
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder={lang === "en" ? "e.g. John Doe - Ensenada Bistro" : "Ej. Juan Pérez - Restaurante Ensenada"}
-                    className="w-full bg-brand-violet/40 border border-brand-slate/40 text-brand-paper focus:border-brand-yellow rounded px-3 py-2 text-xs outline-none transition-all"
-                  />
+            <div className="md:col-span-5 bg-[#23122B] border border-brand-orange-dark/30 rounded-xl p-5 sm:p-6 space-y-4 shadow-xl">
+              {[
+                lang === "en" ? "One clear workflow before adding complexity." : "Un flujo claro antes de agregar complejidad.",
+                lang === "en" ? "A realistic first build instead of vague proposals." : "Una primera versión realista en vez de propuestas vagas.",
+                lang === "en" ? "Metrics that explain what to improve next." : "Métricas que explican qué mejorar después."
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-start gap-3 text-sm text-brand-bg/85">
+                  <CheckCircle className="w-4 h-4 text-brand-yellow shrink-0 mt-0.5" />
+                  <span>{item}</span>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-[11px] font-mono text-brand-bg/80 block mb-1">
-                      {lang === "en" ? "Industry / Business sector:" : "Giro de mi negocio / Rubro:"}
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.businessType}
-                      onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}
-                      placeholder={lang === "en" ? "e.g. Retail / Gastronomy" : "Ej. Comercial / Servicios"}
-                      className="w-full bg-brand-violet/40 border border-brand-slate/40 text-brand-paper focus:border-brand-yellow rounded px-3 py-2 text-xs outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-mono text-brand-bg/80 block mb-1">
-                      {lang === "en" ? "Target system to automate / measure:" : "Qué buscas automatizar / medir:"}
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.problem}
-                      onChange={(e) => setFormData({ ...formData, problem: e.target.value })}
-                      placeholder={lang === "en" ? "e.g. Sales KPI dashboard, Excel flows" : "Ej. Reporte excel, app de ventas"}
-                      className="w-full bg-brand-violet/40 border border-brand-slate/40 text-brand-paper focus:border-brand-yellow rounded px-3 py-2 text-xs outline-none transition-all"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={contactSuccess}
-                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-orange-dark hover:bg-brand-orange-light text-brand-paper font-bold text-xs rounded transition-all shadow border border-brand-violet cursor-pointer"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>{contactSuccess ? (lang === "en" ? "Opening chat..." : "Abriendo chat...") : (lang === "en" ? "Start Diagnostic in WhatsApp" : "Iniciar Diagnóstico en WhatsApp")}</span>
-                </button>
-              </form>
-
-              <div className="flex items-center gap-2 justify-center pt-2 text-[10px] font-mono text-brand-slate text-center">
-                <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
-                <span>{lang === "en" ? "Frictionless setup: No locking long contracts or bloated digital agency fees." : "Listo para operar: Sin plazos forzosos o complejidad de agencias tradicionales."}</span>
-              </div>
-            </div>
-
-            {/* Direct Link button */}
-            <div className="pt-2 flex flex-col items-center gap-4">
+              ))}
               <a
-                href="https://wa.me/526462865241"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-brand-yellow text-brand-violet hover:bg-brand-orange-light hover:text-brand-paper font-bold rounded-lg transition-colors text-sm"
+                href="#planner-section"
+                className="mt-2 inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-yellow text-brand-violet hover:bg-brand-orange-light hover:text-brand-paper font-bold rounded-lg transition-colors text-sm"
               >
-                <MessageSquare className="w-4 h-4 fill-brand-violet text-brand-violet" />
-                <span>{lang === "en" ? "Start Project via WhatsApp" : "Iniciar Proyecto vía WhatsApp"}</span>
+                <span>{lang === "en" ? "Review project planner" : "Revisar planificador"}</span>
+                <ArrowRight className="w-4 h-4" />
               </a>
-              <p className="text-xs font-mono text-brand-bg/60">
-                {lang === "en" ? "Primary Operations: Ensenada, Baja California · National Reach Across Mexico" : "Ubicación base: Ensenada, Baja California · Todo México"}
-              </p>
             </div>
-
           </div>
         </section>
 
@@ -1096,15 +999,15 @@ Me gustaría definir un prototipo funcional para mi negocio.`;
             {/* Column 3 Contact details */}
             <div className="md:col-span-4 space-y-2 text-[11px]">
               <span className="text-brand-yellow font-bold uppercase tracking-wider block">
-                {lang === "en" ? "// DIRECT CONTACT" : "// CONTACTO DIRECTO"}
+                {lang === "en" ? "// INFO" : "// DATOS"}
               </span>
               <ul className="space-y-1.5 text-brand-slate">
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
                   <span>WhatsApp: +52 646 286 52 41</span>
                 </li>
-                <li>{lang === "en" ? "Location: Ensenada, Baja California, Mexico" : "Ubicación: Ensenada, Baja California, México"}</li>
-                <li>{lang === "en" ? "Robust Technical & Operational Support" : "Soporte Técnico & Operativo Sólido"}</li>
+                <li>{lang === "en" ? "Base: Ensenada, Baja California" : "Base: Ensenada, Baja California"}</li>
+                <li>{lang === "en" ? "Independent development and data consulting" : "Desarrollo independiente y consultoría de datos"}</li>
               </ul>
             </div>
 
@@ -1112,15 +1015,15 @@ Me gustaría definir un prototipo funcional para mi negocio.`;
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-brand-slate">
             <div>
-              <span>{lang === "en" ? "Ensenada, Baja California · National Reach Across Mexico" : "Ensenada, Baja California · Todo México"}</span>
+              <span>{lang === "en" ? "Independent web development and data systems" : "Desarrollo web independiente y sistemas de datos"}</span>
             </div>
             <div>
               <span>{lang === "en" ? "© 2026 Juan Carlos Obeso. Web Development & Data Analysis." : "© 2026 Juan Carlos Obeso. Desarrollo Web & Análisis de Datos."}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-brand-orange-dark">WA</span>
+              <span className="text-brand-orange-dark">WEB</span>
               <span>·</span>
-              <span>{lang === "en" ? "Official WhatsApp" : "WhatsApp Oficial"}</span>
+              <span>{lang === "en" ? "Data systems" : "Sistemas de datos"}</span>
             </div>
           </div>
 

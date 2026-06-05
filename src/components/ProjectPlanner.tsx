@@ -40,7 +40,7 @@ export default function ProjectPlanner({ lang = "es" }: ProjectPlannerProps) {
 ⏳ Estimated Timeline: ${timelineLabel}
 📝 Brief Outline: 
 ----------------------------------
-When could we schedule a brief complimentary evaluation to design the first layout mockup?`
+When could we review the initial scope and next practical step?`
       : `¡Hola Juan Carlos! He usado el planificador de tu web. Me gustaría iniciar un proyecto.
 ----------------------------------
 📌 Servicio: 
@@ -49,7 +49,7 @@ When could we schedule a brief complimentary evaluation to design the first layo
 ⏳ Plazo estimado: ${timelineLabel}
 📝 Descripción corta: 
 ----------------------------------
-¿Cuándo podríamos agendar un diagnóstico de cortesía para aterrizar el prototipo?`;
+¿Cuándo podríamos revisar el alcance inicial y el siguiente paso práctico?`;
 
     return `https://wa.me/526462865241?text=${encodeURIComponent(baseMessage)}`; // Juan Carlos WhatsApp in Mexico 
   };
@@ -69,8 +69,8 @@ When could we schedule a brief complimentary evaluation to design the first layo
         </h3>
         <p className="text-sm text-brand-slate max-w-xl mb-6">
           {lang === "en" 
-            ? "Select your goals and auto-generate a diagnostic outline. Juan Carlos will answer you personally with a viable initial scope."
-            : "Selecciona tus requerimientos y genera tu propuesta de diagnóstico. Juan Carlos te responderá personalmente con un alcance inicial viable."}
+            ? "Select the basic context and generate a short, structured brief you can send when you are ready."
+            : "Selecciona el contexto básico y genera un resumen breve y ordenado cuando estés listo para enviarlo."}
         </p>
 
         <div className="space-y-6">
@@ -192,7 +192,7 @@ When could we schedule a brief complimentary evaluation to design the first layo
                 type="text"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                placeholder={lang === "en" ? "e.g. Ensenada Export Co, Pizzeria SaaS" : "Ej. Comercializadora Ensenada, Pizzeria SaaS, etc."}
+                placeholder={lang === "en" ? "e.g. Export Co, Pizzeria SaaS" : "Ej. Comercializadora, Pizzería SaaS, etc."}
                 className="w-full bg-brand-bg/40 border-2 border-brand-violet/10 focus:border-brand-orange-dark focus:bg-brand-paper rounded px-3 py-2 text-xs outline-none text-brand-violet font-medium transition-all"
               />
             </div>
@@ -219,15 +219,15 @@ When could we schedule a brief complimentary evaluation to design the first layo
               className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-orange-dark hover:bg-brand-orange-light text-brand-paper text-sm font-bold rounded-lg border-2 border-brand-violet transition-all duration-200 shadow-md group hover:translate-y-[-1px]"
             >
               <MessageSquare className="w-4 h-4 text-brand-yellow fill-brand-yellow" />
-              <span>{lang === "en" ? "Send Proposal via WhatsApp" : "Enviar Propuesta vía WhatsApp"}</span>
+              <span>{lang === "en" ? "Send Structured Brief" : "Enviar resumen estructurado"}</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
             </a>
             <div className="text-[10px] md:text-xs font-mono text-brand-slate flex items-center gap-2 bg-brand-bg/60 p-2.5 rounded border border-brand-violet/10">
               <CheckCircle className="w-4 h-4 text-brand-orange-dark flex-shrink-0" />
               <span>
                 {lang === "en" 
-                  ? "Auto-generated: Opens a WhatsApp chat with Juan Carlos with your requirements fully structured. Diagnostics available across Ensenada and Mexico."
-                  : "Autogenerado: Abre tu chat con Juan Carlos con la información lista para conversar. Casos reales y diagnóstico en Ensenada & Todo México."}
+                  ? "Your selections are converted into a concise project note, ready to review without starting from a blank message."
+                  : "Tus respuestas se convierten en una nota clara de proyecto, lista para revisar sin empezar desde cero."}
               </span>
             </div>
           </div>

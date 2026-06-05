@@ -309,7 +309,7 @@ export default function InteractiveLaptop({ lang = "es" }: InteractiveLaptopProp
 
                     <div className="flex items-center gap-2 text-green-400">
                       <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
-                      <span>[OK] {lang === "en" ? "Sale logged via WhatsApp → Database" : "Venta registrada en WhatsApp → Base de datos"}</span>
+                      <span>[OK] {lang === "en" ? "Order logged → Database" : "Pedido registrado → Base de datos"}</span>
                     </div>
 
                     <div className="flex items-center gap-2 text-brand-yellow">
