@@ -1,172 +1,150 @@
 import {
-  ArrowLeft,
   ArrowRight,
   BarChart3,
   CheckCircle2,
   ClipboardList,
   Eye,
   FileText,
+  Menu,
   MessageCircle,
   MessageSquareText,
   Search,
   ShieldCheck,
   Workflow,
+  X,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import kikubaLogo from "./assets/kikuba-logo-transparent.png";
 
 const whatsappHref =
   "https://wa.me/526462865241?text=Hola%20Kikuba%2C%20quiero%20hablar%20sobre%20mi%20operacion.";
 
-type SectionId =
-  | "inicio"
-  | "problema"
-  | "metodo"
-  | "servicios"
-  | "staff"
-  | "resultados"
-  | "contacto";
+const navItems = [
+  { label: "Problema", href: "#problema" },
+  { label: "Metodo", href: "#metodo" },
+  { label: "Servicios", href: "#servicios" },
+  { label: "Mapa", href: "#mapa" },
+  { label: "Contacto", href: "#contacto" },
+];
 
-type KikubaSection = {
-  id: SectionId;
-  label: string;
-  eyebrow: string;
-  title: string;
-  text: string;
-  icon: LucideIcon;
-  node: {
-    top: string;
-    left: string;
-  };
-  bullets: string[];
-};
-
-const sections: KikubaSection[] = [
+const pains = [
   {
-    id: "inicio",
-    label: "Inicio",
-    eyebrow: "Agencia digital para operaciones reales",
-    title: "Tecnologia que entiende tu operacion.",
-    text: "Kikuba observa como trabaja tu negocio, analiza donde se atora y construye herramientas digitales que encajan con la operacion real.",
-    icon: Eye,
-    node: { top: "15%", left: "50%" },
-    bullets: [
-      "Primero entendemos. Luego construimos.",
-      "Sitios, sistemas y datos con enfoque operativo.",
-      "Pensado para negocios no tecnicos.",
-    ],
-  },
-  {
-    id: "problema",
-    label: "Problema",
-    eyebrow: "Lo que se traba",
-    title: "Tu negocio no necesita mas herramientas. Necesita claridad.",
-    text: "Muchos equipos operan entre WhatsApp, hojas de calculo, notas sueltas y decisiones tomadas con informacion incompleta.",
     icon: MessageSquareText,
-    node: { top: "28%", left: "25%" },
-    bullets: [
-      "Informacion dispersa entre mensajes y memoria.",
-      "Trabajo repetido que consume tiempo.",
-      "Datos disponibles, pero dificiles de usar.",
-    ],
+    title: "Informacion dispersa",
+    text: "Pedidos, dudas y pendientes viven entre WhatsApp, notas, llamadas y memoria.",
   },
   {
-    id: "metodo",
-    label: "Metodo",
-    eyebrow: "Observamos - Analizamos - Construimos",
-    title: "Un proceso claro para resultados reales.",
-    text: "No empezamos por la herramienta. Empezamos por entender que pasa, quienes lo viven y que solucion tendria impacto real.",
-    icon: Search,
-    node: { top: "28%", left: "75%" },
-    bullets: [
-      "Observamos tareas, personas y puntos de friccion.",
-      "Analizamos prioridades antes de proponer.",
-      "Construimos una primera version util y medible.",
-    ],
-  },
-  {
-    id: "servicios",
-    label: "Servicios",
-    eyebrow: "Que construimos",
-    title: "Soluciones digitales que ordenan tu negocio.",
-    text: "Creamos presencia digital clara, sistemas internos y tableros de datos para operar, medir y mejorar sin complejidad innecesaria.",
-    icon: Workflow,
-    node: { top: "50%", left: "18%" },
-    bullets: [
-      "Sitios web y landing pages comerciales.",
-      "Sistemas para pedidos, inventario y registros.",
-      "Dashboards y reportes para decidir mejor.",
-    ],
-  },
-  {
-    id: "staff",
-    label: "Staff",
-    eyebrow: "Diferencial Kikuba",
-    title: "Tambien escuchamos a la gente que vive la operacion.",
-    text: "Un sistema falla si solo se disena desde la direccion. Kikuba toma en cuenta a quienes atienden, registran, venden, preparan y resuelven todos los dias.",
     icon: ClipboardList,
-    node: { top: "50%", left: "82%" },
-    bullets: [
-      "El staff ayuda a detectar fricciones reales.",
-      "Las herramientas deben servirle a quien las usa.",
-      "Menos imposicion, mas adopcion.",
-    ],
+    title: "Trabajo repetido",
+    text: "El equipo captura, revisa y confirma lo mismo varias veces durante el dia.",
   },
   {
-    id: "resultados",
-    label: "Resultados",
-    eyebrow: "Que cambia",
-    title: "Menos caos operativo. Mas control real.",
-    text: "La meta no es sumar software por moda. La meta es que el negocio tenga una forma mas clara de operar, medir y mejorar.",
     icon: BarChart3,
-    node: { top: "74%", left: "31%" },
-    bullets: [
-      "Menos informacion perdida.",
-      "Procesos mas faciles de seguir.",
-      "Decisiones con datos claros.",
-    ],
+    title: "Decisiones a ojo",
+    text: "Hay datos, pero no estan ordenados para entender que esta pasando.",
+  },
+];
+
+const method = [
+  {
+    icon: Eye,
+    label: "01",
+    title: "Observamos",
+    text: "Entendemos como trabaja tu negocio en la vida real: personas, tareas, herramientas, mensajes y puntos de friccion.",
   },
   {
-    id: "contacto",
+    icon: Search,
+    label: "02",
+    title: "Analizamos",
+    text: "Detectamos patrones, prioridades y oportunidades antes de proponer una solucion.",
+  },
+  {
+    icon: Workflow,
+    label: "03",
+    title: "Construimos",
+    text: "Creamos una primera version util, clara y lista para probar con tu equipo.",
+  },
+  {
+    icon: ShieldCheck,
+    label: "04",
+    title: "Mejoramos",
+    text: "Medimos uso, escuchamos feedback y ajustamos para que la herramienta realmente sirva.",
+  },
+];
+
+const services = [
+  {
+    icon: FileText,
+    title: "Presencia digital clara",
+    text: "Sitios, landing pages y catalogos digitales que explican bien lo que haces y convierten visitas en conversaciones reales.",
+  },
+  {
+    icon: Workflow,
+    title: "Sistemas para operar",
+    text: "Herramientas internas para pedidos, inventario, solicitudes, registros, tareas y flujos diarios del equipo.",
+  },
+  {
+    icon: BarChart3,
+    title: "Datos para decidir",
+    text: "Tableros, reportes y metricas utiles para dejar de adivinar y ver tu operacion con claridad.",
+  },
+];
+
+const mapNodes = [
+  {
+    label: "Problema",
+    title: "Lo que se traba",
+    text: "Mensajes, tareas y datos viven separados.",
+    top: "28%",
+    left: "25%",
+  },
+  {
+    label: "Metodo",
+    title: "Como lo entendemos",
+    text: "Observamos antes de construir.",
+    top: "28%",
+    left: "75%",
+  },
+  {
+    label: "Servicios",
+    title: "Lo que construimos",
+    text: "Sitios, sistemas y datos con sentido operativo.",
+    top: "50%",
+    left: "18%",
+  },
+  {
+    label: "Staff",
+    title: "A quien escuchamos",
+    text: "Tambien al equipo que usa el sistema todos los dias.",
+    top: "50%",
+    left: "82%",
+  },
+  {
+    label: "Resultados",
+    title: "Que cambia",
+    text: "Menos caos y mas control real.",
+    top: "74%",
+    left: "31%",
+  },
+  {
     label: "Contacto",
-    eyebrow: "Siguiente paso",
-    title: "Hablemos de tu operacion.",
-    text: "Cuentame que esta trabado. Lo observamos, lo analizamos y definimos una primera solucion clara para probar con tu negocio.",
-    icon: MessageCircle,
-    node: { top: "74%", left: "69%" },
-    bullets: [
-      "WhatsApp directo.",
-      "Diagnostico inicial.",
-      "Primera ruta de solucion.",
-    ],
+    title: "Siguiente paso",
+    text: "Definir una primera solucion clara.",
+    top: "74%",
+    left: "69%",
   },
 ];
 
 export default function App() {
-  const [activeId, setActiveId] = useState<SectionId>("inicio");
-  const activeIndex = sections.findIndex((section) => section.id === activeId);
-  const active = sections[activeIndex] ?? sections[0];
-  const ActiveIcon = active.icon;
-
-  const nextSection = useMemo(
-    () => sections[(activeIndex + 1 + sections.length) % sections.length],
-    [activeIndex],
-  );
-  const previousSection = useMemo(
-    () => sections[(activeIndex - 1 + sections.length) % sections.length],
-    [activeIndex],
-  );
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeNode, setActiveNode] = useState(mapNodes[0]);
 
   return (
-    <div className="h-svh overflow-hidden bg-brand-bg text-brand-dark-text">
-      <header className="h-[76px] border-b border-brand-violet/12 bg-brand-bg/92 backdrop-blur-xl">
-        <nav className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-5 lg:px-8">
-          <button
-            type="button"
-            onClick={() => setActiveId("inicio")}
-            className="flex min-w-0 items-center gap-3 text-left"
-          >
+    <div className="min-h-screen bg-brand-bg text-brand-dark-text">
+      <header className="sticky top-0 z-50 border-b border-brand-violet/12 bg-brand-bg/92 backdrop-blur-xl">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
+          <a href="#inicio" className="flex min-w-0 items-center gap-3">
             <img
               src={kikubaLogo}
               alt="Kikuba"
@@ -180,190 +158,377 @@ export default function App() {
                 Observamos - Analizamos - Construimos
               </p>
             </div>
-          </button>
+          </a>
 
-          <div className="hidden items-center gap-2 lg:flex">
-            {sections.map((section) => (
-              <button
-                key={section.id}
-                type="button"
-                onClick={() => setActiveId(section.id)}
-                className={`rounded-sm px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition ${
-                  section.id === active.id
-                    ? "bg-brand-violet text-brand-bg"
-                    : "text-brand-slate hover:bg-brand-paper hover:text-brand-violet"
-                }`}
+          <div className="hidden items-center gap-7 lg:flex">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-slate transition hover:text-brand-violet"
               >
-                {section.label}
-              </button>
+                {item.label}
+              </a>
             ))}
+            <a
+              href={whatsappHref}
+              className="inline-flex items-center gap-2 rounded-sm bg-brand-violet px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-brand-bg transition hover:bg-brand-orange-dark"
+            >
+              Hablemos
+              <MessageCircle className="h-4 w-4" />
+            </a>
           </div>
 
-          <a
-            href={whatsappHref}
-            className="inline-flex items-center gap-2 rounded-sm bg-brand-violet px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-brand-bg transition hover:bg-brand-orange-dark"
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-brand-violet/20 text-brand-violet lg:hidden"
+            onClick={() => setMenuOpen((value) => !value)}
+            aria-label={menuOpen ? "Cerrar menu" : "Abrir menu"}
           >
-            <span className="hidden sm:inline">Hablemos</span>
-            <MessageCircle className="h-4 w-4" />
-          </a>
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </nav>
+
+        {menuOpen && (
+          <div className="border-t border-brand-violet/10 bg-brand-paper px-5 py-5 lg:hidden">
+            <div className="flex flex-col gap-4">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-violet"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
+              <a
+                href={whatsappHref}
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-sm bg-brand-violet px-5 py-3 text-sm font-semibold text-brand-bg"
+                onClick={() => setMenuOpen(false)}
+              >
+                Hablemos de tu operacion
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        )}
       </header>
 
-      <main className="h-[calc(100svh-76px)] overflow-hidden">
-        <div className="mx-auto grid h-full max-w-7xl grid-rows-[auto_1fr] gap-4 px-5 py-4 lg:grid-cols-[minmax(320px,0.82fr)_minmax(440px,1.12fr)_220px] lg:grid-rows-1 lg:gap-6 lg:px-8 lg:py-8">
-          <section className="relative hidden min-h-0 overflow-hidden lg:flex lg:items-center lg:justify-center">
-            <div className="relative w-full max-w-[430px]">
+      <main>
+        <section id="inicio" className="overflow-hidden">
+          <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:py-20 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-24">
+            <div>
+              <p className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-brand-slate">
+                Agencia digital para operaciones reales
+              </p>
+              <h1 className="max-w-4xl font-display text-5xl font-semibold leading-[0.98] text-brand-violet sm:text-6xl lg:text-7xl">
+                Tecnologia que entiende tu operacion.
+              </h1>
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-brand-violet/76">
+                Observamos como trabaja tu negocio, escuchamos a tu equipo y
+                construimos herramientas digitales que ordenan la operacion sin
+                agregar complejidad innecesaria.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href={whatsappHref}
+                  className="inline-flex items-center justify-center gap-3 rounded-sm bg-brand-violet px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-brand-bg transition hover:bg-brand-orange-dark"
+                >
+                  Hablemos de tu operacion
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+                <a
+                  href="#mapa"
+                  className="inline-flex items-center justify-center rounded-sm border border-brand-violet/20 px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-brand-violet transition hover:border-brand-violet/40 hover:bg-brand-paper"
+                >
+                  Ver mapa Kikuba
+                </a>
+              </div>
+            </div>
+
+            <div className="flex justify-center lg:justify-end">
               <img
                 src={kikubaLogo}
-                alt="Mapa visual Kikuba"
-                className="max-h-[calc(100svh-170px)] w-full object-contain"
+                alt="Logo Kikuba"
+                className="w-full max-w-[430px] object-contain"
               />
+            </div>
+          </div>
+        </section>
 
-              {sections.map((section) => (
+        <section id="problema" className="border-y border-brand-violet/10 bg-brand-paper py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-5 lg:px-8">
+            <SectionIntro
+              eyebrow="Lo que se traba"
+              title="Tu negocio no necesita mas herramientas. Necesita claridad."
+              text="Muchos negocios trabajan duro, pero operan entre mensajes, hojas de calculo, notas sueltas y decisiones tomadas con informacion incompleta."
+            />
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {pains.map((item) => (
+                <InfoCard key={item.title} {...item} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="metodo" className="bg-brand-violet py-16 text-brand-bg sm:py-20">
+          <div className="mx-auto max-w-7xl px-5 lg:px-8">
+            <SectionIntro
+              eyebrow="Nuestro metodo"
+              title="Observamos, analizamos y construimos con los pies en la operacion."
+              text="No empezamos por la herramienta. Empezamos por entender que pasa, quienes lo viven y que solucion tendria impacto real."
+              dark
+            />
+            <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {method.map((item) => (
+                <MethodCard key={item.title} {...item} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="servicios" className="bg-brand-bg py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-5 lg:px-8">
+            <SectionIntro
+              eyebrow="Servicios"
+              title="Soluciones digitales que ordenan tu negocio."
+              text="Hacemos tecnologia util para que la operacion sea mas clara, medible y facil de seguir para quienes trabajan todos los dias en ella."
+            />
+            <div className="mt-12 grid gap-5 lg:grid-cols-3">
+              {services.map((item) => (
+                <ServiceCard key={item.title} {...item} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="diferencial" className="border-y border-brand-violet/10 bg-brand-paper py-16 sm:py-20">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-slate">
+                Diferencial Kikuba
+              </p>
+              <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-brand-violet sm:text-5xl">
+                Tambien escuchamos a la gente que vive la operacion.
+              </h2>
+            </div>
+            <div className="space-y-6 text-lg leading-8 text-brand-violet/74">
+              <p>
+                Muchos proyectos digitales fallan porque se disenan solo desde
+                la vision directiva. Kikuba tambien toma en cuenta al staff:
+                quien atiende, registra, vende, prepara, reporta y resuelve
+                problemas todos los dias.
+              </p>
+              <p className="border-l-2 border-brand-yellow pl-5 font-medium text-brand-violet">
+                La tecnologia funciona mejor cuando entiende a las personas que
+                la van a usar.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="mapa" className="bg-brand-bg py-16 sm:py-20">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-slate">
+                Mapa Kikuba
+              </p>
+              <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-brand-violet sm:text-5xl">
+                Los nodos explican como pensamos una operacion.
+              </h2>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-brand-violet/72">
+                Esta parte mantiene la idea experimental sin volverla una barrera
+                de navegacion. El logo funciona como mapa de lectura: cada nodo
+                representa una parte del proceso.
+              </p>
+
+              <div className="mt-8 border border-brand-violet/12 bg-brand-paper p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate">
+                  {activeNode.label}
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold text-brand-violet">
+                  {activeNode.title}
+                </h3>
+                <p className="mt-3 leading-7 text-brand-violet/70">
+                  {activeNode.text}
+                </p>
+              </div>
+            </div>
+
+            <div className="relative mx-auto w-full max-w-[470px]">
+              <img src={kikubaLogo} alt="Mapa visual Kikuba" className="w-full object-contain" />
+              {mapNodes.map((node) => (
                 <button
-                  key={section.id}
+                  key={node.label}
                   type="button"
-                  onClick={() => setActiveId(section.id)}
+                  onClick={() => setActiveNode(node)}
                   className={`absolute h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border transition ${
-                    section.id === active.id
+                    node.label === activeNode.label
                       ? "scale-125 border-brand-violet bg-brand-yellow shadow-[0_0_0_10px_rgba(216,199,166,0.34)]"
                       : "border-brand-bg bg-brand-violet hover:scale-110 hover:bg-brand-orange-dark"
                   }`}
-                  style={{ top: section.node.top, left: section.node.left }}
-                  aria-label={`Abrir ${section.label}`}
-                >
-                  <span className="sr-only">{section.label}</span>
-                </button>
+                  style={{ top: node.top, left: node.left }}
+                  aria-label={`Ver nodo ${node.label}`}
+                />
               ))}
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section className="min-h-0 overflow-hidden lg:hidden">
-            <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
-              {sections.map((section) => (
-                <button
-                  key={section.id}
-                  type="button"
-                  onClick={() => setActiveId(section.id)}
-                  className={`shrink-0 rounded-sm px-4 py-3 text-xs font-semibold uppercase tracking-[0.12em] transition ${
-                    section.id === active.id
-                      ? "bg-brand-violet text-brand-bg"
-                      : "bg-brand-paper text-brand-violet"
-                  }`}
-                >
-                  {section.label}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <section className="min-h-0 overflow-hidden lg:h-full">
-            <div className="flex h-full flex-col border border-brand-violet/12 bg-brand-paper shadow-[0_24px_80px_rgba(37,48,43,0.10)]">
-              <div className="flex items-center justify-between border-b border-brand-violet/10 px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-brand-violet text-brand-bg">
-                    <ActiveIcon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-slate">
-                      {active.eyebrow}
-                    </p>
-                    <p className="text-sm font-semibold text-brand-violet">
-                      {String(activeIndex + 1).padStart(2, "0")} /{" "}
-                      {sections.length}
-                    </p>
-                  </div>
-                </div>
-                <div className="hidden h-3 w-3 rotate-45 bg-brand-yellow sm:block" />
-              </div>
-
-              <div className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8 sm:py-8">
-                <h1 className="max-w-3xl font-display text-3xl font-semibold leading-[1.05] text-brand-violet sm:text-4xl lg:text-5xl">
-                  {active.title}
-                </h1>
-                <p className="mt-5 max-w-2xl text-base leading-7 text-brand-violet/74">
-                  {active.text}
-                </p>
-
-                <div className="mt-7 grid gap-3">
-                  {active.bullets.map((bullet) => (
-                    <div
-                      key={bullet}
-                      className="flex gap-3 border border-brand-violet/10 bg-brand-bg/70 p-4"
-                    >
-                      <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-brand-orange-dark" />
-                      <p className="text-sm leading-6 text-brand-violet/74">
-                        {bullet}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3 border-t border-brand-violet/10 px-5 py-4">
-                <button
-                  type="button"
-                  onClick={() => setActiveId(previousSection.id)}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-brand-violet/15 text-brand-violet transition hover:bg-brand-bg"
-                  aria-label={`Ir a ${previousSection.label}`}
-                >
-                  <ArrowLeft className="h-5 w-5" />
-                </button>
-                {active.id === "contacto" ? (
-                  <a
-                    href={whatsappHref}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-sm bg-brand-violet px-5 text-sm font-semibold uppercase tracking-[0.12em] text-brand-bg transition hover:bg-brand-orange-dark"
-                  >
-                    Escribir por WhatsApp
-                    <MessageCircle className="h-4 w-4" />
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setActiveId(nextSection.id)}
-                    className="inline-flex h-11 items-center justify-center rounded-sm bg-brand-violet px-5 text-sm font-semibold uppercase tracking-[0.12em] text-brand-bg transition hover:bg-brand-orange-dark"
-                  >
-                    Siguiente: {nextSection.label}
-                  </button>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setActiveId(nextSection.id)}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-brand-violet/15 text-brand-violet transition hover:bg-brand-bg"
-                  aria-label={`Ir a ${nextSection.label}`}
-                >
-                  <ArrowRight className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-          </section>
-
-          <section className="hidden min-h-0 overflow-hidden lg:block">
-            <div className="grid h-full content-center gap-3">
-              {sections.map((section) => {
-                const Icon = section.icon;
-                return (
-                  <button
-                    key={section.id}
-                    type="button"
-                    onClick={() => setActiveId(section.id)}
-                    className={`flex items-center gap-3 border px-4 py-3 text-left transition ${
-                      section.id === active.id
-                        ? "border-brand-violet bg-brand-violet text-brand-bg"
-                        : "border-brand-violet/10 bg-brand-paper/75 text-brand-violet hover:bg-brand-paper"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4 shrink-0" />
-                    <span className="text-xs font-semibold uppercase tracking-[0.14em]">
-                      {section.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        </div>
+        <section id="contacto" className="bg-brand-violet py-16 text-brand-bg sm:py-20">
+          <div className="mx-auto max-w-4xl px-5 text-center lg:px-8">
+            <div className="mx-auto mb-7 h-3 w-3 rotate-45 bg-brand-yellow" />
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-yellow">
+              Siguiente paso
+            </p>
+            <h2 className="mt-4 font-display text-4xl font-semibold leading-tight sm:text-6xl">
+              Hablemos de tu operacion.
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-brand-bg/74">
+              Cuentame que esta trabado. Lo observamos, lo analizamos y
+              definimos una primera solucion clara para probar con tu negocio.
+            </p>
+            <a
+              href={whatsappHref}
+              className="mt-10 inline-flex items-center justify-center gap-3 rounded-sm bg-brand-bg px-8 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-brand-violet transition hover:bg-brand-yellow"
+            >
+              Escribir por WhatsApp
+              <MessageCircle className="h-5 w-5" />
+            </a>
+          </div>
+        </section>
       </main>
+
+      <footer className="bg-brand-paper py-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+          <div className="flex items-center gap-4">
+            <img src={kikubaLogo} alt="Kikuba" className="h-14 w-14 object-cover object-top" />
+            <div>
+              <p className="brand-word text-lg font-semibold text-brand-violet">
+                KIKUBA
+              </p>
+              <p className="mt-1 text-sm text-brand-violet/62">
+                Observamos - Analizamos - Construimos
+              </p>
+            </div>
+          </div>
+          <p className="text-sm text-brand-violet/62">
+            Ensenada, Baja California · WhatsApp +52 646 286 52 41
+          </p>
+        </div>
+      </footer>
     </div>
+  );
+}
+
+function SectionIntro({
+  eyebrow,
+  title,
+  text,
+  dark = false,
+}: {
+  eyebrow: string;
+  title: string;
+  text: string;
+  dark?: boolean;
+}) {
+  return (
+    <div className="max-w-3xl">
+      <p
+        className={`text-xs font-semibold uppercase tracking-[0.24em] ${
+          dark ? "text-brand-yellow" : "text-brand-slate"
+        }`}
+      >
+        {eyebrow}
+      </p>
+      <h2
+        className={`mt-4 font-display text-4xl font-semibold leading-tight sm:text-5xl ${
+          dark ? "text-brand-bg" : "text-brand-violet"
+        }`}
+      >
+        {title}
+      </h2>
+      <p
+        className={`mt-6 max-w-2xl text-lg leading-8 ${
+          dark ? "text-brand-bg/72" : "text-brand-violet/72"
+        }`}
+      >
+        {text}
+      </p>
+    </div>
+  );
+}
+
+function InfoCard({
+  icon: Icon,
+  title,
+  text,
+}: {
+  key?: string;
+  icon: LucideIcon;
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="border border-brand-violet/12 bg-brand-bg p-6 transition hover:bg-brand-orange-light/16">
+      <Icon className="h-7 w-7 text-brand-violet/76" />
+      <h3 className="mt-8 text-lg font-semibold text-brand-violet">{title}</h3>
+      <p className="mt-3 text-sm leading-6 text-brand-violet/66">{text}</p>
+    </article>
+  );
+}
+
+function MethodCard({
+  icon: Icon,
+  label,
+  title,
+  text,
+}: {
+  key?: string;
+  icon: LucideIcon;
+  label: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="border border-brand-bg/14 bg-brand-bg/[0.04] p-6">
+      <div className="flex items-center justify-between gap-4">
+        <Icon className="h-7 w-7 text-brand-yellow" />
+        <span className="text-xs font-semibold tracking-[0.2em] text-brand-orange-light">
+          {label}
+        </span>
+      </div>
+      <h3 className="mt-8 text-lg font-semibold uppercase tracking-[0.14em]">
+        {title}
+      </h3>
+      <p className="mt-4 text-sm leading-6 text-brand-bg/68">{text}</p>
+    </article>
+  );
+}
+
+function ServiceCard({
+  icon: Icon,
+  title,
+  text,
+}: {
+  key?: string;
+  icon: LucideIcon;
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="group border border-brand-violet/12 bg-brand-paper p-7 transition hover:bg-brand-orange-light/18">
+      <Icon className="h-8 w-8 text-brand-violet/72" />
+      <h3 className="mt-10 text-xl font-semibold text-brand-violet">{title}</h3>
+      <p className="mt-4 leading-7 text-brand-violet/68">{text}</p>
+      <a
+        href={whatsappHref}
+        className="mt-8 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-violet"
+      >
+        Conversar
+        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+      </a>
+    </article>
   );
 }
