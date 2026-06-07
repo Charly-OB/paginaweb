@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useState } from "react";
-import kikubaLogo from "./assets/kikuba-logo.png";
+import kikubaLogo from "./assets/kikuba-logo.jpg";
 
 const whatsappHref =
   "https://wa.me/526462865241?text=Hola%20Kikuba%2C%20quiero%20hablar%20sobre%20mi%20operacion.";
@@ -219,22 +219,13 @@ export default function App() {
             </div>
 
             <div className="relative">
-              <div className="absolute inset-0 translate-x-8 translate-y-8 bg-brand-yellow/35" />
-              <div className="relative border border-brand-violet/14 bg-brand-paper p-6 shadow-[0_24px_80px_rgba(37,48,43,0.12)] sm:p-8">
+              <div className="absolute inset-0 translate-x-5 translate-y-5 bg-brand-yellow/28 sm:translate-x-8 sm:translate-y-8" />
+              <div className="relative border border-brand-violet/14 bg-brand-paper p-5 shadow-[0_24px_80px_rgba(37,48,43,0.12)] sm:p-8">
                 <img
                   src={kikubaLogo}
                   alt="Logo oficial de Kikuba"
-                  className="mx-auto w-full max-w-[430px] object-contain"
+                  className="mx-auto w-full max-w-[390px] object-contain"
                 />
-                <div className="mt-7 border-t border-brand-violet/12 pt-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-slate">
-                    Logo oficial
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-brand-violet/68">
-                    Se usa como sello de confianza y sistema visual. No se
-                    modifica, no se redibuja y no compite con el mensaje.
-                  </p>
-                </div>
               </div>
             </div>
           </div>
