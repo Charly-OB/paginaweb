@@ -1,22 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-mono: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-  --color-brand-yellow: #F2C230;
-  --color-brand-orange-light: #F2921D;
-  --color-brand-orange-dark: #F24F13;
-  --color-brand-slate: #8082A6;
-  --color-brand-violet: #46334F;
-  --color-brand-bg: #F7F5F0;
-  --color-brand-paper: #FDFDFB;
-  --color-brand-dark-text: #1E1221;
+  --color-brand-yellow: #D8C7A6;
+  --color-brand-orange-light: #A9B99B;
+  --color-brand-orange-dark: #8C946D;
+  --color-brand-slate: #687066;
+  --color-brand-violet: #25302B;
+  --color-brand-bg: #EFE8D7;
+  --color-brand-paper: #FFFDF8;
+  --color-brand-dark-text: #151A17;
 }
 
-/* Custom editorial styles */
 @layer base {
   html, body, #root {
     max-width: 100%;
@@ -35,6 +34,7 @@
     background-color: var(--color-brand-bg);
     color: var(--color-brand-dark-text);
     font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -48,21 +48,6 @@
 }
 
 
-.hero-copy {
-  width: calc(100vw - 3rem);
-  max-width: calc(100vw - 3rem);
-}
-
-.hero-copy p,
-.hero-copy h2,
-.hero-copy a,
-.hero-copy span {
-  overflow-wrap: anywhere;
-}
-
-@media (min-width: 640px) {
-  .hero-copy {
-    width: auto;
-    max-width: none;
-  }
+.brand-word {
+  letter-spacing: 0.38em;
 }
