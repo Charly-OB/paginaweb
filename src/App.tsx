@@ -20,11 +20,11 @@ import { useEffect, useState } from "react";
 import kikubaLogo from "./assets/kikuba-logo-transparent.png";
 
 const whatsappHref =
-  "https://wa.me/526462865241?text=Hola%20Kikuba%2C%20quiero%20hablar%20sobre%20mi%20operacion.";
+  "https://wa.me/526462865241?text=Hola%20Kikuba%2C%20quiero%20hablar%20sobre%20mi%20operaci%C3%B3n.";
 
 const navItems = [
   { label: "Inicio", href: "#inicio" },
-  { label: "Operacion", href: "#operacion" },
+  { label: "Operación", href: "#operacion" },
   { label: "Soluciones", href: "#soluciones" },
   { label: "Proyectos", href: "#proyectos" },
   { label: "Origen", href: "#origen" },
@@ -33,18 +33,18 @@ const navItems = [
 const pains = [
   {
     icon: MessageSquareText,
-    title: "Informacion dispersa",
+    title: "Información dispersa",
     text: "Pedidos, dudas y pendientes viven entre WhatsApp, notas, llamadas y memoria.",
   },
   {
     icon: ClipboardList,
     title: "Trabajo repetido",
-    text: "El equipo captura, revisa y confirma lo mismo varias veces durante el dia.",
+    text: "El equipo captura, revisa y confirma lo mismo varias veces durante el día.",
   },
   {
     icon: BarChart3,
     title: "Decisiones a ojo",
-    text: "Hay datos, pero no estan ordenados para entender que esta pasando.",
+    text: "Hay datos, pero no están ordenados para entender qué está pasando.",
   },
 ];
 
@@ -53,19 +53,19 @@ const method = [
     icon: Eye,
     label: "01",
     title: "Observamos",
-    text: "Hablamos con quien dirige y tambien con quien atiende, registra, prepara y resuelve todos los dias. Ahi esta la operacion real.",
+    text: "Hablamos con quien dirige y también con quien atiende, registra, prepara y resuelve todos los días. Ahí está la operación real.",
   },
   {
     icon: Search,
     label: "02",
     title: "Analizamos",
-    text: "Detectamos patrones, prioridades y oportunidades antes de proponer una solucion.",
+    text: "Detectamos patrones, prioridades y oportunidades antes de proponer una solución.",
   },
   {
     icon: Workflow,
     label: "03",
     title: "Construimos",
-    text: "Creamos una primera version util, clara y lista para probar con tu equipo.",
+    text: "Creamos una primera versión útil, clara y lista para probar con tu equipo.",
   },
   {
     icon: ShieldCheck,
@@ -79,7 +79,7 @@ const services = [
   {
     icon: FileText,
     title: "Presencia digital clara",
-    text: "Para que cuando alguien busque tu negocio encuentre una experiencia clara, confiable y lista para abrir una conversacion.",
+    text: "Para que cuando alguien busque tu negocio encuentre una experiencia clara, confiable y lista para abrir una conversación.",
   },
   {
     icon: Workflow,
@@ -89,7 +89,7 @@ const services = [
   {
     icon: BarChart3,
     title: "Datos para decidir",
-    text: "Para saber que se vende, que deja margen, donde se pierde tiempo y que parte de la operacion necesita atencion.",
+    text: "Para saber qué se vende, qué deja margen, dónde se pierde tiempo y qué parte de la operación necesita atención.",
   },
 ];
 
@@ -97,22 +97,22 @@ const projects = [
   {
     title: "SIE7E Beauty Room",
     type: "Proyecto principal",
-    status: "En produccion",
-    text: "Sitio publico, portal, panel administrativo y backend para operar citas, clientas, calendario, roles, comunicacion por WhatsApp y seguimiento del negocio.",
-    metrics: ["Sitio publico", "Admin", "Backend", "WhatsApp"],
+    status: "En producción",
+    text: "Sitio público, portal, panel administrativo y backend para operar citas, clientas, calendario, roles, comunicación por WhatsApp y seguimiento del negocio.",
+    metrics: ["Sitio público", "Admin", "Backend", "WhatsApp"],
   },
   {
-    title: "Cape Cafe PWA",
-    type: "Sistema operativo para cafe",
+    title: "Capé Café PWA",
+    type: "Sistema operativo para café",
     status: "En desarrollo",
     text: "PWA React/Vite con Supabase e IndexedDB para inventario, costos, margen financiero, tickets y OCR sin exponer API keys en frontend.",
     metrics: ["Supabase", "OCR tickets", "Inventario"],
   },
   {
-    title: "Cape Cafe Menu Digital",
-    type: "Menu PWA para negocio local",
+    title: "Capé Café Menu Digital",
+    type: "Menú PWA para negocio local",
     status: "Construido",
-    text: "Menu digital con categorias, busqueda, QR, informacion del negocio, ubicacion, Instagram, traducciones ES/EN y datos de nutricion estimada.",
+    text: "Menú digital con categorías, búsqueda, QR, información del negocio, ubicación, Instagram, traducciones ES/EN y datos de nutrición estimada.",
     metrics: ["QR", "ES/EN", "PWA"],
   },
   {
@@ -124,26 +124,26 @@ const projects = [
   },
   {
     title: "Clinic AI Assistant",
-    type: "Atencion y agenda",
+    type: "Atención y agenda",
     status: "Prototipo avanzado",
-    text: "Dashboard con asistente IA, simulador tipo WhatsApp, citas, pacientes, intervencion humana y conexiones planeadas con Google Calendar, Drive y Contacts.",
+    text: "Dashboard con asistente IA, simulador tipo WhatsApp, citas, pacientes, intervención humana y conexiones planeadas con Google Calendar, Drive y Contacts.",
     metrics: ["Gemini", "Agenda", "WhatsApp"],
   },
   {
     title: "Vino BC Intelligence",
     type: "Dashboard de datos",
     status: "Prototipo",
-    text: "Tablero para visualizar salud de viñedos y convertir informacion dispersa del sector vino en lectura operativa para toma de decisiones.",
-    metrics: ["Dashboard", "Datos", "Vinedos"],
+    text: "Tablero para visualizar salud de viñedos y convertir información dispersa del sector vino en lectura operativa para toma de decisiones.",
+    metrics: ["Dashboard", "Datos", "Viñedos"],
   },
 ];
 
 const fitSignals = [
   "Tus pedidos llegan por WhatsApp y alguien los anota en papel o en una hoja.",
-  "Tu inventario vive en Excel, o ya nadie sabe si esta actualizado.",
-  "Al final del mes no sabes con claridad que producto, servicio o turno deja mas margen.",
-  "Cada persona nueva aprende la operacion preguntando porque no hay sistema claro.",
-  "Tomas decisiones importantes con intuicion porque los datos estan dispersos.",
+  "Tu inventario vive en Excel, o ya nadie sabe si está actualizado.",
+  "Al final del mes no sabes con claridad qué producto, servicio o turno deja más margen.",
+  "Cada persona nueva aprende la operación preguntando porque no hay sistema claro.",
+  "Tomas decisiones importantes con intuición porque los datos están dispersos.",
 ];
 
 const fadeUp = {
@@ -278,7 +278,7 @@ export default function App() {
                 className="mt-2 inline-flex items-center justify-center gap-2 rounded-sm bg-brand-violet px-5 py-3 text-sm font-semibold text-brand-bg"
                 onClick={() => setMenuOpen(false)}
               >
-                Hablemos de tu operacion
+                Hablemos de tu operación
                 <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -316,7 +316,7 @@ export default function App() {
                 transition={transition}
                 className="mt-7 max-w-2xl text-lg leading-8 text-brand-violet/76"
               >
-                Observamos tu operacion, escuchamos a tu equipo y creamos
+                Observamos tu operación, escuchamos a tu equipo y creamos
                 herramientas digitales que ordenan el trabajo real.
               </motion.p>
               <motion.div
@@ -329,7 +329,7 @@ export default function App() {
                   className="inline-flex items-center justify-center gap-3 rounded-sm bg-brand-violet px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-brand-bg transition hover:bg-brand-orange-dark"
                   reduceMotion={Boolean(reduceMotion)}
                 >
-                  Hablemos de tu operacion
+                  Hablemos de tu operación
                   <ArrowRight className="h-4 w-4" />
                 </MotionLink>
                 <MotionLink
@@ -341,7 +341,7 @@ export default function App() {
                     openSection("#operacion");
                   }}
                 >
-                  Ver operacion
+                  Ver operación
                 </MotionLink>
               </motion.div>
             </motion.div>
@@ -364,12 +364,11 @@ export default function App() {
         <WindowSection id="operacion" activeSection={activeSection} className="border-y border-brand-violet/10 bg-brand-paper py-10 sm:py-14">
           <div className="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:px-8">
             <SectionIntro
-              eyebrow="Operacion"
+              eyebrow="Operación"
               title="Donde se traba el trabajo real."
-              text="Unimos el problema y para quien es: si tu negocio vive entre mensajes, hojas, notas y decisiones a ojo, aqui empieza Kikuba."
+              text="Unimos el problema y para quién es: si tu negocio vive entre mensajes, hojas, notas y decisiones a ojo, aquí empieza Kikuba."
             />
             <div className="grid gap-5">
-              <OperationVisual />
               <motion.div
                 variants={staggerGroup}
                 initial="hidden"
@@ -401,13 +400,12 @@ export default function App() {
         <WindowSection id="soluciones" activeSection={activeSection} className="bg-brand-violet py-10 text-brand-bg sm:py-14">
           <div className="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:px-8">
             <SectionIntro
-              eyebrow="Metodo + servicios"
-              title="Entender primero, construir despues."
-              text="No vendemos herramientas sueltas. Observamos la operacion, detectamos prioridades y convertimos lo importante en sistemas, sitios y datos utiles."
+              eyebrow="Método + servicios"
+              title="Entender primero, construir después."
+              text="No vendemos herramientas sueltas. Observamos la operación, detectamos prioridades y convertimos lo importante en sistemas, sitios y datos útiles."
               dark
             />
             <div className="grid gap-5">
-              <SolutionsVisual />
               <motion.div
                 variants={staggerGroup}
                 initial="hidden"
@@ -454,19 +452,19 @@ export default function App() {
                 Origen Kikuba
               </p>
               <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-brand-violet sm:text-5xl">
-                Kikuba nace desde la operacion real.
+                Kikuba nace desde la operación real.
               </h2>
             </div>
             <div className="space-y-6 text-lg leading-8 text-brand-violet/74">
               <p>
                 Soy Juan Carlos, fundador y desarrollador independiente. Antes
                 de construir sistemas, he vivido el trabajo diario desde dentro:
-                atencion, procesos, presion, improvisacion y decisiones tomadas
-                con informacion incompleta.
+                atención, procesos, presión, improvisación y decisiones tomadas
+                con información incompleta.
               </p>
               <p className="border-l-2 border-brand-yellow pl-5 font-medium text-brand-violet">
-                Por eso Kikuba no empieza vendiendo tecnologia: empieza
-                entendiendo como trabaja tu negocio y escuchando a quienes lo
+                Por eso Kikuba no empieza vendiendo tecnología: empieza
+                entendiendo cómo trabaja tu negocio y escuchando a quienes lo
                 hacen funcionar.
               </p>
             </div>
@@ -656,83 +654,6 @@ function ServiceCard({
         <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
       </a>
     </motion.article>
-  );
-}
-
-function OperationVisual() {
-  const items = [
-    { label: "WhatsApp", value: "42", tone: "bg-brand-orange-light" },
-    { label: "Pendientes", value: "18", tone: "bg-brand-yellow" },
-    { label: "Inventario", value: "7", tone: "bg-brand-violet text-brand-bg" },
-  ];
-
-  return (
-    <div className="border border-brand-violet/12 bg-brand-paper p-5">
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate">
-          Antes de ordenar
-        </p>
-        <MessageSquareText className="h-5 w-5 text-brand-violet/70" />
-      </div>
-      <div className="mt-5 grid gap-3 sm:grid-cols-3">
-        {items.map((item) => (
-          <div key={item.label} className="border border-brand-violet/10 bg-brand-bg p-4">
-            <div className={`mb-5 h-2 w-10 ${item.tone}`} />
-            <p className="text-3xl font-semibold text-brand-violet">{item.value}</p>
-            <p className="mt-1 text-xs uppercase tracking-[0.16em] text-brand-violet/60">
-              {item.label}
-            </p>
-          </div>
-        ))}
-      </div>
-      <div className="mt-5 grid grid-cols-5 items-end gap-2">
-        {[28, 44, 36, 62, 82].map((height, index) => (
-          <div
-            key={height}
-            className="bg-brand-orange-light/70"
-            style={{ height: `${height}px`, opacity: 0.42 + index * 0.1 }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SolutionsVisual() {
-  const steps = ["Observamos", "Analizamos", "Construimos"];
-
-  return (
-    <div className="border border-brand-bg/14 bg-brand-bg/[0.06] p-5">
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-yellow">
-          Flujo Kikuba
-        </p>
-        <Workflow className="h-5 w-5 text-brand-yellow" />
-      </div>
-      <div className="mt-6 grid gap-3 sm:grid-cols-3">
-        {steps.map((step, index) => (
-          <div key={step} className="relative border border-brand-bg/14 p-4">
-            <span className="text-xs font-semibold tracking-[0.2em] text-brand-orange-light">
-              0{index + 1}
-            </span>
-            <p className="mt-6 text-lg font-semibold text-brand-bg">{step}</p>
-            {index < steps.length - 1 && (
-              <div className="absolute -right-2 top-1/2 hidden h-px w-4 bg-brand-yellow sm:block" />
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="mt-5 rounded-sm bg-brand-bg/[0.08] p-4">
-        <div className="grid gap-2">
-          {["Pedidos mas claros", "Datos visibles", "Seguimiento simple"].map((item) => (
-            <div key={item} className="flex items-center gap-3">
-              <CheckCircle2 className="h-4 w-4 text-brand-yellow" />
-              <span className="text-sm text-brand-bg/76">{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
 
