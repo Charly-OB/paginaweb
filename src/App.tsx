@@ -16,7 +16,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import kikubaLogo from "./assets/kikuba-logo-transparent.png";
 
 const whatsappHref =
@@ -27,8 +27,10 @@ const navItems = [
   { label: "Tu operacion", href: "#problema" },
   { label: "Metodo", href: "#metodo" },
   { label: "Servicios", href: "#servicios" },
+  { label: "Para quien", href: "#para-quien" },
   { label: "Detras", href: "#detras" },
   { label: "Resultados", href: "#resultados" },
+  { label: "Mapa", href: "#mapa" },
   { label: "Contacto", href: "#contacto" },
 ];
 
@@ -183,17 +185,51 @@ function motionTransition(reduceMotion: boolean) {
     : { duration: 0.7, ease: [0.22, 1, 0.36, 1] };
 }
 
+function getInitialSection() {
+  if (typeof window === "undefined") {
+    return "inicio";
+  }
+
+  const hash = window.location.hash.replace("#", "");
+  return navItems.some((item) => item.href === `#${hash}`) ? hash : "inicio";
+}
+
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeNode, setActiveNode] = useState(mapNodes[0]);
+  const [activeSection, setActiveSection] = useState(getInitialSection);
   const reduceMotion = useReducedMotion();
   const transition = motionTransition(Boolean(reduceMotion));
 
+  useEffect(() => {
+    const updateFromHash = () => {
+      setActiveSection(getInitialSection());
+    };
+
+    updateFromHash();
+    window.addEventListener("hashchange", updateFromHash);
+    return () => window.removeEventListener("hashchange", updateFromHash);
+  }, []);
+
+  function openSection(href: string) {
+    const section = href.replace("#", "");
+    setActiveSection(section);
+    setMenuOpen(false);
+    window.history.replaceState(null, "", href);
+  }
+
   return (
-    <div className="min-h-screen bg-brand-bg text-brand-dark-text">
-      <header className="sticky top-0 z-50 border-b border-brand-violet/12 bg-brand-bg/92 backdrop-blur-xl">
+    <div className="flex min-h-screen flex-col overflow-hidden bg-brand-bg text-brand-dark-text">
+      <header className="z-50 shrink-0 border-b border-brand-violet/12 bg-brand-bg/92 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
-          <a href="#inicio" className="flex min-w-0 items-center gap-3">
+          <a
+            href="#inicio"
+            className="flex min-w-0 items-center gap-3"
+            onClick={(event) => {
+              event.preventDefault();
+              openSection("#inicio");
+            }}
+          >
             <img
               src={kikubaLogo}
               alt="Kikuba"
@@ -209,7 +245,15 @@ export default function App() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-slate transition hover:text-brand-violet"
+                onClick={(event) => {
+                  event.preventDefault();
+                  openSection(item.href);
+                }}
+                className={`text-xs font-semibold uppercase tracking-[0.16em] transition ${
+                  activeSection === item.href.replace("#", "")
+                    ? "text-brand-violet"
+                    : "text-brand-slate hover:text-brand-violet"
+                }`}
               >
                 {item.label}
               </a>
@@ -241,7 +285,10 @@ export default function App() {
                   key={item.href}
                   href={item.href}
                   className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-violet"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    openSection(item.href);
+                  }}
                 >
                   {item.label}
                 </a>
@@ -259,8 +306,8 @@ export default function App() {
         )}
       </header>
 
-      <main>
-        <section id="inicio" className="relative overflow-hidden">
+      <main className="min-h-0 flex-1 overflow-hidden">
+        <WindowSection id="inicio" activeSection={activeSection} className="relative overflow-hidden">
           <NodeField reduceMotion={Boolean(reduceMotion)} />
           <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:py-20 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-24">
             <motion.div
@@ -328,9 +375,9 @@ export default function App() {
               />
             </motion.div>
           </div>
-        </section>
+        </WindowSection>
 
-        <section id="problema" className="border-y border-brand-violet/10 bg-brand-paper py-16 sm:py-20">
+        <WindowSection id="problema" activeSection={activeSection} className="border-y border-brand-violet/10 bg-brand-paper py-16 sm:py-20">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
             <SectionIntro
               eyebrow="Lo que se traba"
@@ -349,9 +396,9 @@ export default function App() {
               ))}
             </motion.div>
           </div>
-        </section>
+        </WindowSection>
 
-        <section id="metodo" className="bg-brand-violet py-16 text-brand-bg sm:py-20">
+        <WindowSection id="metodo" activeSection={activeSection} className="bg-brand-violet py-16 text-brand-bg sm:py-20">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
             <SectionIntro
               eyebrow="Nuestro metodo"
@@ -371,9 +418,9 @@ export default function App() {
               ))}
             </motion.div>
           </div>
-        </section>
+        </WindowSection>
 
-        <section id="servicios" className="bg-brand-bg py-16 sm:py-20">
+        <WindowSection id="servicios" activeSection={activeSection} className="bg-brand-bg py-16 sm:py-20">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
             <SectionIntro
               eyebrow="Servicios"
@@ -392,9 +439,9 @@ export default function App() {
               ))}
             </motion.div>
           </div>
-        </section>
+        </WindowSection>
 
-        <section id="para-quien" className="border-y border-brand-violet/10 bg-brand-paper py-16 sm:py-20">
+        <WindowSection id="para-quien" activeSection={activeSection} className="border-y border-brand-violet/10 bg-brand-paper py-16 sm:py-20">
           <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:px-8">
             <SectionIntro
               eyebrow="Para quien es"
@@ -422,9 +469,9 @@ export default function App() {
               </a>
             </div>
           </div>
-        </section>
+        </WindowSection>
 
-        <section id="detras" className="border-y border-brand-violet/10 bg-brand-paper py-16 sm:py-20">
+        <WindowSection id="detras" activeSection={activeSection} className="border-y border-brand-violet/10 bg-brand-paper py-16 sm:py-20">
           <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-slate">
@@ -448,9 +495,9 @@ export default function App() {
               </p>
             </div>
           </div>
-        </section>
+        </WindowSection>
 
-        <section id="resultados" className="bg-brand-bg py-16 sm:py-20">
+        <WindowSection id="resultados" activeSection={activeSection} className="bg-brand-bg py-16 sm:py-20">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
             <SectionIntro
               eyebrow="Resultados"
@@ -469,9 +516,9 @@ export default function App() {
               ))}
             </motion.div>
           </div>
-        </section>
+        </WindowSection>
 
-        <section id="mapa" className="bg-brand-bg py-16 sm:py-20">
+        <WindowSection id="mapa" activeSection={activeSection} className="bg-brand-bg py-16 sm:py-20">
           <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-slate">
@@ -528,9 +575,9 @@ export default function App() {
               ))}
             </div>
           </div>
-        </section>
+        </WindowSection>
 
-        <section id="contacto" className="bg-brand-violet py-16 text-brand-bg sm:py-20">
+        <WindowSection id="contacto" activeSection={activeSection} className="bg-brand-violet py-16 text-brand-bg sm:py-20">
           <div className="mx-auto max-w-4xl px-5 text-center lg:px-8">
             <div className="mx-auto mb-7 h-3 w-3 rotate-45 bg-brand-yellow" />
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-yellow">
@@ -551,10 +598,10 @@ export default function App() {
               <MessageCircle className="h-5 w-5" />
             </a>
           </div>
-        </section>
+        </WindowSection>
       </main>
 
-      <footer className="bg-brand-paper py-10">
+      <footer className="hidden">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <div className="flex items-center gap-4">
             <img src={kikubaLogo} alt="Kikuba" className="h-14 w-14 object-cover object-top" />
@@ -611,6 +658,37 @@ function SectionIntro({
         {text}
       </p>
     </div>
+  );
+}
+
+function WindowSection({
+  id,
+  activeSection,
+  className,
+  children,
+}: {
+  id: string;
+  activeSection: string;
+  className: string;
+  children: ReactNode;
+}) {
+  const isActive = id === activeSection;
+
+  return (
+    <motion.section
+      id={id}
+      aria-hidden={!isActive}
+      className={`${className} ${
+        isActive
+          ? "block h-full overflow-y-auto overscroll-contain"
+          : "hidden"
+      }`}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 10 }}
+      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.section>
   );
 }
 
