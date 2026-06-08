@@ -27,13 +27,13 @@ npm run dev
 El proyecto se publica en:
 
 ```text
-https://charly-ob.github.io/paginaweb/
+https://charly-ob.github.io/kikuba/
 ```
 
 Mientras se use GitHub Pages como proyecto, mantener:
 
 ```ts
-base: "/paginaweb/"
+base: "/kikuba/"
 ```
 
 Build local:
