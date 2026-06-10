@@ -1,52 +1,31 @@
 # Kikuba
 
-Sitio web oficial de Kikuba, agencia digital para operaciones reales.
+Tecnología que entiende tu operación.
 
-Kikuba observa como trabaja un negocio, escucha al equipo y construye herramientas digitales que ordenan la operacion: sitios web claros, sistemas internos y datos utiles para decidir mejor.
+Kikuba is a practical technology studio for small and local businesses.
 
-Mensaje principal:
+It helps businesses that operate with WhatsApp, Instagram, Excel or manual processes to organize their operation through clear websites, smart forms, simple automations, basic dashboards, lightweight internal systems and operational digital diagnosis.
 
-```text
-Primero entendemos. Luego construimos.
-```
+## Current stage
+Etapa 1 — Base Operativa y Comercial.
 
-## Sistema de marca
+The goal is to make Kikuba presentable, credible and ready to explain what it does, show who it helps, capture diagnosis requests, register leads and follow up with prospects.
 
-- `DESIGN.md`: reglas visuales, tono, layout, iconografia, Motion y restricciones del logo.
-- `VIDEO_STYLE.md`: guia futura para Jitter, SVGator y Anime.js sin agregarlos como dependencias de la landing.
+## Main CTA
+Solicita un diagnóstico gratuito
 
-## Desarrollo local
+## Core pages
+- `/`
+- `/diagnostico`
 
-```bash
-npm install
-npm run dev
-```
+## Internal documentation
+- `AGENTS.md`
+- `CODEX.md`
+- `marketing/00-brand-context.md`
+- `marketing/01-icp.md`
+- `marketing/02-offers.md`
+- `marketing/07-analytics-plan.md`
+- `marketing/10-landing-structure.md`
 
-## Build y GitHub Pages
-
-El proyecto se publica en:
-
-```text
-https://charly-ob.github.io/kikuba/
-```
-
-Mientras se use GitHub Pages como proyecto, mantener:
-
-```ts
-base: "/kikuba/"
-```
-
-Build local:
-
-```bash
-npm run lint
-npm run build
-```
-
-La publicacion actual en GitHub Pages se mantiene commiteando el build generado en la raiz del repositorio.
-
-## Contacto
-
-```text
-https://wa.me/526462865241
-```
+## Working rule
+Do not propose technology before understanding the operational problem.
