@@ -191,13 +191,11 @@ export default function App() {
           >
             <div className="logo-hero-orbit">
               <div className="absolute inset-6 rounded-full border border-dashed border-[#D8C7A6]/28" />
-              <div className="logo-hero-plate">
-                <img
-                  src={kikubaLogo}
-                  alt="Logo Kikuba"
-                  className="logo-hero-image"
-                />
-              </div>
+              <img
+                src={kikubaLogo}
+                alt="Logo Kikuba"
+                className="logo-hero-image"
+              />
             </div>
           </motion.div>
         </section>
