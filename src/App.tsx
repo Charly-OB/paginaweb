@@ -364,14 +364,14 @@ function EarlyAccessPage() {
 
       <main className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-8 md:px-12">
         <header className="flex items-center justify-between">
-          <a href="/kikuba/" className="flex items-center gap-3" aria-label="Kikuba inicio">
+          <div className="flex items-center gap-3" aria-label="Kikuba">
             <span className="logo-mark-frame" aria-hidden="true">
               <img src={kikubaLogo} alt="" className="logo-mark-image" />
             </span>
             <span className="text-sm font-semibold uppercase tracking-[0.34em] text-[#EFE8D7] md:text-base">
               Kikuba
             </span>
-          </a>
+          </div>
           <span className="hidden rounded-full border border-[#EFE8D7]/12 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#EFE8D7]/58 sm:inline-flex">
             Acceso temprano
           </span>
@@ -409,12 +409,6 @@ function EarlyAccessPage() {
                 className="inline-flex items-center justify-center rounded-full bg-[#EFE8D7] px-6 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-[#25302B] transition-all duration-300 hover:bg-[#A9B99B]"
               >
                 Quiero un diagnóstico inicial
-              </a>
-              <a
-                href="/kikuba/"
-                className="inline-flex items-center justify-center rounded-full border border-[#EFE8D7]/20 px-6 py-4 text-sm font-medium uppercase tracking-[0.14em] text-[#EFE8D7] transition-all duration-300 hover:border-[#EFE8D7]/40 hover:bg-[#EFE8D7]/8"
-              >
-                Ver sitio de Kikuba
               </a>
             </div>
           </motion.div>
