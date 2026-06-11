@@ -1,807 +1,225 @@
-import {
-  ArrowRight,
-  BarChart3,
-  CheckCircle2,
-  ClipboardList,
-  Eye,
-  FileText,
-  Menu,
-  MessageCircle,
-  MessageSquareText,
-  Search,
-  ShieldCheck,
-  Workflow,
-  X,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
-import type { MouseEventHandler, ReactNode } from "react";
-import { useEffect, useState } from "react";
-import kikubaLogo from "./assets/kikuba-logo-transparent.png";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const whatsappHref =
-  "https://wa.me/526462865241?text=Hola%20Kikuba%2C%20quiero%20hablar%20sobre%20mi%20operaci%C3%B3n.";
-
-const navItems = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Operación", href: "#operacion" },
-  { label: "Soluciones", href: "#soluciones" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Origen", href: "#origen" },
-];
-
-const pains = [
-  {
-    icon: MessageSquareText,
-    title: "Información dispersa",
-    text: "Pedidos, dudas y pendientes viven entre WhatsApp, notas, llamadas y memoria.",
-  },
-  {
-    icon: ClipboardList,
-    title: "Trabajo repetido",
-    text: "El equipo captura, revisa y confirma lo mismo varias veces durante el día.",
-  },
-  {
-    icon: BarChart3,
-    title: "Decisiones a ojo",
-    text: "Hay datos, pero no están ordenados para entender qué está pasando.",
-  },
-];
-
-const method = [
-  {
-    icon: Eye,
-    label: "01",
-    title: "Observamos",
-    text: "Hablamos con quien dirige y también con quien atiende, registra, prepara y resuelve todos los días. Ahí está la operación real.",
-  },
-  {
-    icon: Search,
-    label: "02",
-    title: "Analizamos",
-    text: "Detectamos patrones, prioridades y oportunidades antes de proponer una solución.",
-  },
-  {
-    icon: Workflow,
-    label: "03",
-    title: "Construimos",
-    text: "Creamos una primera versión útil, clara y lista para probar con tu equipo.",
-  },
-  {
-    icon: ShieldCheck,
-    label: "04",
-    title: "Mejoramos",
-    text: "Medimos uso, escuchamos feedback y ajustamos para que la herramienta realmente sirva.",
-  },
-];
-
-const services = [
-  {
-    icon: FileText,
-    title: "Presencia digital clara",
-    text: "Para que cuando alguien busque tu negocio encuentre una experiencia clara, confiable y lista para abrir una conversación.",
-  },
-  {
-    icon: Workflow,
-    title: "Sistemas para operar",
-    text: "Para que tus pedidos dejen de perderse en WhatsApp y tu inventario deje de depender de quien recuerde actualizarlo.",
-  },
-  {
-    icon: BarChart3,
-    title: "Datos para decidir",
-    text: "Para saber qué se vende, qué deja margen, dónde se pierde tiempo y qué parte de la operación necesita atención.",
-  },
-];
-
-const projects = [
-  {
-    title: "SIE7E Beauty Room",
-    type: "Proyecto principal",
-    status: "En producción",
-    text: "Sitio público, portal, panel administrativo y backend para operar citas, clientas, calendario, roles, comunicación por WhatsApp y seguimiento del negocio.",
-    metrics: ["Sitio público", "Admin", "Backend", "WhatsApp"],
-  },
-  {
-    title: "Capé Café PWA",
-    type: "Sistema operativo para café",
-    status: "En desarrollo",
-    text: "PWA React/Vite con Supabase e IndexedDB para inventario, costos, margen financiero, tickets y OCR sin exponer API keys en frontend.",
-    metrics: ["Supabase", "OCR tickets", "Inventario"],
-  },
-  {
-    title: "Capé Café Menu Digital",
-    type: "Menú PWA para negocio local",
-    status: "Construido",
-    text: "Menú digital con categorías, búsqueda, QR, información del negocio, ubicación, Instagram, traducciones ES/EN y datos de nutrición estimada.",
-    metrics: ["QR", "ES/EN", "PWA"],
-  },
-  {
-    title: "Pipa Segura",
-    type: "Pedidos y rutas",
-    status: "Prototipo",
-    text: "Interfaz para pedir pipas de agua, registrar datos del cliente, consultar pedidos y mover estatus entre pendiente, en ruta y entregado.",
-    metrics: ["Mapa", "Pedidos", "Estatus"],
-  },
-  {
-    title: "Clinic AI Assistant",
-    type: "Atención y agenda",
-    status: "Prototipo avanzado",
-    text: "Dashboard con asistente IA, simulador tipo WhatsApp, citas, pacientes, intervención humana y conexiones planeadas con Google Calendar, Drive y Contacts.",
-    metrics: ["Gemini", "Agenda", "WhatsApp"],
-  },
-  {
-    title: "Vino BC Intelligence",
-    type: "Dashboard de datos",
-    status: "Prototipo",
-    text: "Tablero para visualizar salud de viñedos y convertir información dispersa del sector vino en lectura operativa para toma de decisiones.",
-    metrics: ["Dashboard", "Datos", "Viñedos"],
-  },
-];
-
-const fitSignals = [
-  "Tus pedidos llegan por WhatsApp y alguien los anota en papel o en una hoja.",
-  "Tu inventario vive en Excel, o ya nadie sabe si está actualizado.",
-  "Al final del mes no sabes con claridad qué producto, servicio o turno deja más margen.",
-  "Cada persona nueva aprende la operación preguntando porque no hay sistema claro.",
-  "Tomas decisiones importantes con intuición porque los datos están dispersos.",
-];
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 18 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const staggerGroup = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-function motionTransition(reduceMotion: boolean) {
-  return reduceMotion
-    ? { duration: 0 }
-    : { duration: 0.7, ease: [0.22, 1, 0.36, 1] };
-}
-
-function getInitialSection() {
-  if (typeof window === "undefined") {
-    return "inicio";
-  }
-
-  const hash = window.location.hash.replace("#", "");
-  return navItems.some((item) => item.href === `#${hash}`) ? hash : "inicio";
-}
+// --- PALETA DE COLORES KIKUBA ---
+// Principal Oscuro: #25302B
+// Principal Claro/Texto: #EFE8D7
+// Acento Verde: #A9B99B
+// Acento Dorado/Detalles: #D8C7A6
 
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState(getInitialSection);
-  const reduceMotion = useReducedMotion();
-  const transition = motionTransition(Boolean(reduceMotion));
-
-  useEffect(() => {
-    const updateFromHash = () => {
-      setActiveSection(getInitialSection());
-    };
-
-    updateFromHash();
-    window.addEventListener("hashchange", updateFromHash);
-    return () => window.removeEventListener("hashchange", updateFromHash);
-  }, []);
-
-  function openSection(href: string) {
-    const section = href.replace("#", "");
-    setActiveSection(section);
-    setMenuOpen(false);
-    window.history.replaceState(null, "", href);
-  }
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="flex h-[100dvh] max-h-[100dvh] flex-col overflow-hidden bg-brand-bg text-brand-dark-text">
-      <header className="z-50 shrink-0 border-b border-brand-violet/12 bg-brand-bg/92 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
-          <a
-            href="#inicio"
-            className="flex min-w-0 items-center gap-3"
-            onClick={(event) => {
-              event.preventDefault();
-              openSection("#inicio");
-            }}
-          >
-            <img
-              src={kikubaLogo}
-              alt="Kikuba"
-              className="h-12 w-12 shrink-0 object-cover object-top"
-            />
-            <p className="brand-word text-base font-semibold text-brand-violet sm:text-lg">
-              KIKUBA
-            </p>
-          </a>
+    <div className="min-h-screen bg-[#25302B] text-[#EFE8D7] font-sans selection:bg-[#A9B99B] selection:text-[#25302B] overflow-x-hidden relative">
+      {/* Efecto de grano digital sutil en el fondo */}
+      <div className="pointer-events-none absolute inset-0 z-50 bg-[url('https://godaylight.com/_next/image?url=%2Fgrain-2.jpg&w=640&q=75')] bg-repeat opacity-[0.03] mix-blend-overlay" />
 
-          <div className="hidden items-center gap-7 lg:flex">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(event) => {
-                  event.preventDefault();
-                  openSection(item.href);
-                }}
-                className={`text-xs font-semibold uppercase tracking-[0.16em] transition ${
-                  activeSection === item.href.replace("#", "")
-                    ? "text-brand-violet"
-                    : "text-brand-slate hover:text-brand-violet"
-                }`}
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href={whatsappHref}
-              className="inline-flex items-center gap-2 rounded-sm bg-brand-violet px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-brand-bg transition hover:bg-brand-orange-dark"
-            >
-              Hablemos
-              <MessageCircle className="h-4 w-4" />
-            </a>
+      {/* NAVBAR FLOTANTE (Estilo Daylight Premium) */}
+      <header className="fixed top-6 left-0 right-0 z-40 px-4 md:px-8">
+        <nav className="max-w-5xl mx-auto bg-[#25302B]/70 backdrop-blur-md border border-[#EFE8D7]/10 rounded-full py-3 px-6 flex items-center justify-between transition-all duration-300 hover:border-[#EFE8D7]/20">
+          <a href="#" className="font-serif text-xl font-medium tracking-tight text-[#EFE8D7]">
+            kikuba<span className="text-[#A9B99B]">.</span>
+          </a>
+          
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide uppercase text-[#EFE8D7]/80">
+            <a href="#enfoque" className="hover:text-[#A9B99B] transition-colors">Enfoque</a>
+            <a href="#servicios" className="hover:text-[#A9B99B] transition-colors">Servicios</a>
+            <a href="#proyectos" className="hover:text-[#A9B99B] transition-colors">Casos</a>
           </div>
 
-          <button
-            type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-brand-violet/20 text-brand-violet lg:hidden"
-            onClick={() => setMenuOpen((value) => !value)}
-            aria-label={menuOpen ? "Cerrar menu" : "Abrir menu"}
+          <a 
+            href="https://wa.me/message/KIKUBA" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="bg-[#EFE8D7] text-[#25302B] px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#A9B99B] hover:text-[#25302B] transition-all duration-300"
           >
-            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            Iniciar Proyecto
+          </a>
         </nav>
+      </header>
 
-        {menuOpen && (
-          <div className="border-t border-brand-violet/10 bg-brand-paper px-5 py-5 lg:hidden">
-            <div className="flex flex-col gap-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-violet"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    openSection(item.href);
-                  }}
-                >
-                  {item.label}
-                </a>
-              ))}
-              <a
-                href={whatsappHref}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-sm bg-brand-violet px-5 py-3 text-sm font-semibold text-brand-bg"
-                onClick={() => setMenuOpen(false)}
+      {/* HERO SECTION (Tipografía Agresiva e Imponente) */}
+      <section className="min-h-screen pt-32 flex flex-col justify-center px-6 md:px-12 max-w-6xl mx-auto relative isolate">
+        {/* Fondo Geométrico de Rejilla sutil */}
+        <div className="absolute inset-0 -z-10 grid grid-cols-4 md:grid-cols-6 border-l border-r border-[#EFE8D7]/5 pointer-events-none">
+          <div className="border-r border-[#EFE8D7]/5 hidden md:block" />
+          <div className="border-r border-[#EFE8D7]/5" />
+          <div className="border-r border-[#EFE8D7]/5" />
+          <div className="border-r border-[#EFE8D7]/5" />
+          <div className="border-r border-[#EFE8D7]/5 hidden md:block" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-8 flex flex-col gap-6">
+            <small className="font-mono text-xs uppercase tracking-widest text-[#A9B99B]">
+              Taller Boutique de Software & Automatizaciones
+            </small>
+            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-[#EFE8D7] leading-[0.95] tracking-tight">
+              Tecnología que <br />
+              <span className="text-[#D8C7A6]">entiende</span> tu operación.
+            </h1>
+            <p className="text-lg md:text-xl text-[#EFE8D7]/70 max-w-xl font-light leading-relaxed mt-4">
+              Diseñamos e implementamos sistemas a medida y arquitecturas de datos robustas para negocios que buscan escalar sin fricción.
+            </p>
+            <div className="mt-6">
+              <a 
+                href="#servicios" 
+                className="inline-flex items-center gap-3 border border-[#EFE8D7]/20 px-6 py-4 rounded-full text-sm font-medium tracking-wide uppercase hover:bg-[#EFE8D7] hover:text-[#25302B] hover:border-[#EFE8D7] transition-all duration-500 group"
               >
-                Hablemos de tu operación
-                <ArrowRight className="h-4 w-4" />
+                Explorar Capacidades
+                <span className="transform group-hover:translate-x-1 transition-transform">→</span>
               </a>
             </div>
           </div>
-        )}
-      </header>
-
-      <main className="min-h-0 flex-1 overflow-hidden">
-        <WindowSection id="inicio" activeSection={activeSection} className="relative overflow-hidden">
-          <NodeField reduceMotion={Boolean(reduceMotion)} />
-          <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:py-20 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-24">
-            <motion.div
-              variants={staggerGroup}
-              initial="hidden"
-              animate="visible"
-              className="relative z-10"
-            >
-              <motion.p
-                variants={fadeUp}
-                transition={transition}
-                className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-brand-slate"
-              >
-                Agencia digital para operaciones reales
-              </motion.p>
-              <motion.h1
-                variants={fadeUp}
-                transition={transition}
-                className="max-w-4xl font-display text-5xl font-semibold leading-[0.98] text-brand-violet sm:text-6xl lg:text-7xl"
-              >
-                Primero entendemos. Luego{" "}
-                <span className="text-brand-slate">construimos.</span>
-              </motion.h1>
-              <motion.p
-                variants={fadeUp}
-                transition={transition}
-                className="mt-7 max-w-2xl text-lg leading-8 text-brand-violet/76"
-              >
-                Observamos tu operación, escuchamos a tu equipo y creamos
-                herramientas digitales que ordenan el trabajo real.
-              </motion.p>
-              <motion.div
-                variants={fadeUp}
-                transition={transition}
-                className="mt-9 flex flex-col gap-3 sm:flex-row"
-              >
-                <MotionLink
-                  href={whatsappHref}
-                  className="inline-flex items-center justify-center gap-3 rounded-sm bg-brand-violet px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-brand-bg transition hover:bg-brand-orange-dark"
-                  reduceMotion={Boolean(reduceMotion)}
-                >
-                  Hablemos de tu operación
-                  <ArrowRight className="h-4 w-4" />
-                </MotionLink>
-                <MotionLink
-                  href="#operacion"
-                  className="inline-flex items-center justify-center rounded-sm border border-brand-violet/20 px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-brand-violet transition hover:border-brand-violet/40 hover:bg-brand-paper"
-                  reduceMotion={Boolean(reduceMotion)}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    openSection("#operacion");
-                  }}
-                >
-                  Ver operación
-                </MotionLink>
-              </motion.div>
-            </motion.div>
-
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
-              animate={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
-              transition={reduceMotion ? undefined : { delay: 0.18, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-10 flex justify-center lg:justify-end"
-            >
-              <img
-                src={kikubaLogo}
-                alt="Logo Kikuba"
-                className="w-full max-w-[430px] object-contain drop-shadow-[0_22px_50px_rgba(37,48,43,0.08)]"
-              />
-            </motion.div>
-          </div>
-        </WindowSection>
-
-        <WindowSection id="operacion" activeSection={activeSection} className="border-y border-brand-violet/10 bg-brand-paper py-10 sm:py-14">
-          <div className="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:px-8">
-            <SectionIntro
-              eyebrow="Operación"
-              title="Donde se traba el trabajo real."
-              text="Unimos el problema y para quién es: si tu negocio vive entre mensajes, hojas, notas y decisiones a ojo, aquí empieza Kikuba."
-            />
-            <div className="grid gap-5">
-              <motion.div
-                variants={staggerGroup}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-80px" }}
-                className="grid gap-4 md:grid-cols-3"
-              >
-                {pains.map((item) => (
-                  <InfoCard key={item.title} {...item} />
-                ))}
-              </motion.div>
-              <div className="grid gap-3 md:grid-cols-2">
-                {fitSignals.slice(0, 4).map((signal) => (
-                  <div
-                    key={signal}
-                    className="flex gap-3 border border-brand-violet/10 bg-brand-bg p-4"
-                  >
-                    <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-brand-orange-dark" />
-                    <p className="text-sm leading-6 text-brand-violet/74">
-                      {signal}
-                    </p>
-                  </div>
-                ))}
+          
+          {/* Gráfico Geométrico Animado (Derecha) */}
+          <div className="lg:col-span-4 hidden lg:flex justify-center justify-end relative">
+            <div className="w-72 h-72 border border-[#A9B99B]/20 rounded-full flex items-center justify-center animate-[spin_40s_linear_infinite]">
+              <div className="w-56 h-56 border border-[#D8C7A6]/30 border-dashed rounded-full flex items-center justify-center">
+                <div className="w-32 h-32 bg-[#A9B99B]/10 rounded-full backdrop-blur-sm flex items-center justify-center">
+                  <span className="font-mono text-xs text-[#D8C7A6]">KKB // PWA</span>
+                </div>
               </div>
             </div>
           </div>
-        </WindowSection>
+        </div>
+      </section>
 
-        <WindowSection id="soluciones" activeSection={activeSection} className="bg-brand-violet py-10 text-brand-bg sm:py-14">
-          <div className="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:px-8">
-            <SectionIntro
-              eyebrow="Método + servicios"
-              title="Entender primero, construir después."
-              text="No vendemos herramientas sueltas. Observamos la operación, detectamos prioridades y convertimos lo importante en sistemas, sitios y datos útiles."
-              dark
-            />
-            <div className="grid gap-5">
-              <motion.div
-                variants={staggerGroup}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-80px" }}
-                className="grid gap-4 md:grid-cols-2"
+      {/* SECCIÓN NUEVA: ¿PARA QUIÉN ES KIKUBA? (Audit Fix) */}
+      <section id="enfoque" className="py-24 border-t border-[#EFE8D7]/10 bg-[#25302B]/30 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div className="lg:col-span-4">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#A9B99B] block mb-4">// Idoneidad</span>
+            <h2 className="font-serif text-3xl md:text-4xl tracking-tight leading-tight">¿Para quién construimos?</h2>
+          </div>
+          <div className="lg:col-span-8 flex flex-col gap-8">
+            {[
+              "Empresas operativas atrapadas en hojas de cálculo que necesitan centralizar su gestión.",
+              "Modelos de negocio únicos cuyas necesidades no se cubren con un software comercial genérico.",
+              "Fundadores y CEOs que valoran el código limpio, escalable y la propiedad absoluta de su infraestructura.",
+              "Talleristas y negocios de servicios estéticos o barismo que buscan automatizar flujos de reserva y calibración."
+            ].map((text, idx) => (
+              <div key={idx} className="flex gap-4 items-start border-b border-[#EFE8D7]/5 pb-6 last:border-0">
+                <span className="font-mono text-sm text-[#D8C7A6] pt-1">0{idx + 1}.</span>
+                <p className="text-base md:text-lg text-[#EFE8D7]/80 font-light leading-relaxed">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECCIÓN: MÉTODO (Sticky Process Layout) */}
+      <section className="py-32 border-t border-[#EFE8D7]/10 px-6 md:px-12 max-w-5xl mx-auto">
+        <div className="mb-20">
+          <span className="font-mono text-xs uppercase tracking-widest text-[#A9B99B] block mb-2">El Manifiesto</span>
+          <h2 className="font-serif text-4xl md:text-5xl tracking-tight">Artesanía e Ingeniería Digital</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { step: "01", title: "Observamos", desc: "Analizamos tus cuellos de botella operativos y flujos de trabajo actuales directamente en la raíz." },
+            { step: "02", title: "Diseñamos", desc: "Estructuramos una solución a la medida enfocada en la experiencia de usuario y la eficiencia backend." },
+            { step: "03", title: "Construimos", desc: "Desarrollamos código limpio, modularizado y optimizado utilizando tecnologías modernas y estables." }
+          ].map((item, idx) => (
+            <div key={idx} className="border border-[#EFE8D7]/10 rounded-xl p-8 bg-[#25302B]/50 flex flex-col gap-6 hover:border-[#A9B99B]/30 transition-all duration-300">
+              <span className="font-mono text-xs text-[#A9B99B] uppercase tracking-wider">Fase // {item.step}</span>
+              <h3 className="font-serif text-2xl tracking-tight text-[#D8C7A6]">{item.title}</h3>
+              <p className="text-sm text-[#EFE8D7]/70 font-light leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* SECCIÓN: CAPACIDADES (La Cuadrícula de Líneas Finas) */}
+      <section id="servicios" className="py-32 border-t border-[#EFE8D7]/10 bg-[#25302B]/20 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-[#A9B99B] block mb-2">Capacidades</span>
+              <h2 className="font-serif text-4xl md:text-5xl tracking-tight">Servicios del Taller</h2>
+            </div>
+            <p className="text-sm text-[#EFE8D7]/60 max-w-xs font-light">Soluciones modulares e integraciones limpias sin código basura.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-l border-[#EFE8D7]/10">
+            {[
+              { t: "Desarrollo Full-Stack", d: "Aplicaciones web modernas y PWAs ultrarrápidas construidas con React, Node.js y bases de datos robustas." },
+              { t: "Automatización de Flujos", d: "Eliminamos tareas repetitivas conectando tus herramientas diarias (CRMs, mensajería, APIs) sin esfuerzo humano." },
+              { t: "Análisis de Datos", d: "Bootstrapping de tableros de control y pipelines de datos estructurados para tomar decisiones basadas en métricas reales." }
+            ].map((srv, i) => (
+              <div key={i} className="border-r border-b border-[#EFE8D7]/10 p-8 flex flex-col justify-between min-h-[260px] hover:bg-[#EFE8D7]/5 transition-colors duration-300">
+                <span className="font-mono text-xs text-[#D8C7A6]">0{i+1} // CAP</span>
+                <div className="mt-8">
+                  <h3 className="font-serif text-xl mb-4 tracking-tight">{srv.t}</h3>
+                  <p className="text-xs text-[#EFE8D7]/70 font-light leading-relaxed">{srv.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECCIÓN: CASOS DE ÉXITO */}
+      <section id="proyectos" className="py-32 border-t border-[#EFE8D7]/10 px-6 md:px-12 max-w-5xl mx-auto">
+        <div className="mb-20">
+          <span className="font-mono text-xs uppercase tracking-widest text-[#A9B99B] block mb-2">Selected Work</span>
+          <h2 className="font-serif text-4xl md:text-5xl tracking-tight">Sistemas en Producción</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {[
+            { name: "Dial App PWA", type: "Barista Espresso Calibration System", desc: "Aplicación web progresiva diseñada para la calibración exacta de extracciones de espresso en tiempo real." },
+            { name: "Sie7e Beauty Room Backend", type: "Digital Management & Booking Engine", desc: "Estructura de backend y automatización de flujos de reserva para optimizar la retención de clientes." }
+          ].map((proj, idx) => (
+            <div key={idx} className="group cursor-pointer flex flex-col gap-4">
+              <div className="aspect-video w-full bg-[#EFE8D7]/5 border border-[#EFE8D7]/10 rounded-lg overflow-hidden relative flex items-center justify-center transition-all duration-500 group-hover:border-[#A9B99B]/40">
+                <span className="font-mono text-xs text-[#EFE8D7]/30 tracking-widest uppercase">Asset Link Matrix</span>
+              </div>
+              <div className="flex justify-between items-start mt-2">
+                <div>
+                  <h3 className="font-serif text-xl tracking-tight text-[#EFE8D7] group-hover:text-[#A9B99B] transition-colors">{proj.name}</h3>
+                  <p className="font-mono text-[11px] text-[#A9B99B] uppercase mt-1">{proj.type}</p>
+                </div>
+                <span className="text-[#EFE8D7]/40 font-light text-sm group-hover:text-[#EFE8D7] transition-colors">↗</span>
+              </div>
+              <p className="text-xs text-[#EFE8D7]/70 font-light leading-relaxed max-w-sm">{proj.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FOOTER PREMIUM */}
+      <footer className="border-t border-[#EFE8D7]/10 bg-[#25302B] pt-24 pb-12 px-6 md:px-12 relative isolate">
+        <div className="max-w-5xl mx-auto flex flex-col gap-16">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <h2 className="font-serif text-4xl md:text-6xl tracking-tight max-w-lg leading-none">
+              Construyamos el <br />
+              <span className="text-[#A9B99B]">futuro operativo</span> de tu negocio.
+            </h2>
+            <div>
+              <a 
+                href="https://wa.me/message/KIKUBA" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-[#EFE8D7] text-[#25302B] px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-wider hover:bg-[#A9B99B] hover:text-[#25302B] transition-all duration-300 inline-block text-center"
               >
-                {method.slice(0, 3).map((item) => (
-                  <MethodCard key={item.title} {...item} />
-                ))}
-                {services.map((item) => (
-                  <ServiceCard key={item.title} {...item} />
-                ))}
-              </motion.div>
+                Hablar con un Desarrollador
+              </a>
             </div>
           </div>
-        </WindowSection>
 
-        <WindowSection id="proyectos" activeSection={activeSection} className="bg-brand-bg py-10 sm:py-14">
-          <div className="mx-auto max-w-7xl px-5 lg:px-8">
-            <SectionIntro
-              eyebrow="Proyectos"
-              title="Proyectos reales y prototipos en marcha."
-              text="No son promesas abstractas. Son sistemas, paneles, PWAs y flujos operativos trabajados en proyectos reales, con distintos niveles de avance."
-            />
-            <motion.div
-              variants={staggerGroup}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-80px" }}
-              className="mt-10 grid gap-5 lg:grid-cols-3"
-            >
-              {projects.map((item) => (
-                <ProjectCard key={item.title} {...item} />
-              ))}
-            </motion.div>
-          </div>
-        </WindowSection>
-
-        <WindowSection id="origen" activeSection={activeSection} className="border-y border-brand-violet/10 bg-brand-paper py-10 sm:py-14">
-          <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-slate">
-                Origen Kikuba
-              </p>
-              <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-brand-violet sm:text-5xl">
-                Kikuba nace desde la operación real.
-              </h2>
-            </div>
-            <div className="space-y-6 text-lg leading-8 text-brand-violet/74">
-              <p>
-                Soy Juan Carlos, fundador y desarrollador independiente. Antes
-                de construir sistemas, he vivido el trabajo diario desde dentro:
-                atención, procesos, presión, improvisación y decisiones tomadas
-                con información incompleta.
-              </p>
-              <p className="border-l-2 border-brand-yellow pl-5 font-medium text-brand-violet">
-                Por eso Kikuba no empieza vendiendo tecnología: empieza
-                entendiendo cómo trabaja tu negocio y escuchando a quienes lo
-                hacen funcionar.
-              </p>
+          <div className="flex flex-col md:flex-row justify-between items-center border-t border-[#EFE8D7]/5 pt-12 gap-6">
+            <p className="font-mono text-[11px] text-[#EFE8D7]/40 uppercase tracking-wider">
+              &copy; 2026 Kikuba Workshop. Todos los derechos reservados.
+            </p>
+            <div className="flex gap-8 font-mono text-[11px] text-[#EFE8D7]/60 uppercase tracking-wider">
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-[#A9B99B]">LinkedIn</a>
+              <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-[#A9B99B]">GitHub</a>
             </div>
           </div>
-        </WindowSection>
-      </main>
-
-      <footer className="hidden">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-          <div className="flex items-center gap-4">
-            <img src={kikubaLogo} alt="Kikuba" className="h-14 w-14 object-cover object-top" />
-            <div>
-              <p className="brand-word text-lg font-semibold text-brand-violet">
-                KIKUBA
-              </p>
-              <p className="mt-1 text-sm text-brand-violet/62">
-                Observamos - Analizamos - Construimos
-              </p>
-            </div>
-          </div>
-          <p className="text-sm text-brand-violet/62">
-            Ensenada, Baja California · WhatsApp +52 646 286 52 41
-          </p>
         </div>
       </footer>
-    </div>
-  );
-}
-
-function SectionIntro({
-  eyebrow,
-  title,
-  text,
-  dark = false,
-}: {
-  eyebrow: string;
-  title: string;
-  text: string;
-  dark?: boolean;
-}) {
-  return (
-    <div className="max-w-3xl">
-      <p
-        className={`text-xs font-semibold uppercase tracking-[0.24em] ${
-          dark ? "text-brand-yellow" : "text-brand-slate"
-        }`}
-      >
-        {eyebrow}
-      </p>
-      <h2
-        className={`mt-4 font-display text-4xl font-semibold leading-tight sm:text-5xl ${
-          dark ? "text-brand-bg" : "text-brand-violet"
-        }`}
-      >
-        {title}
-      </h2>
-      <p
-        className={`mt-6 max-w-2xl text-lg leading-8 ${
-          dark ? "text-brand-bg/72" : "text-brand-violet/72"
-        }`}
-      >
-        {text}
-      </p>
-    </div>
-  );
-}
-
-function WindowSection({
-  id,
-  activeSection,
-  className,
-  children,
-}: {
-  id: string;
-  activeSection: string;
-  className: string;
-  children: ReactNode;
-}) {
-  const isActive = id === activeSection;
-
-  return (
-    <motion.section
-      id={id}
-      aria-hidden={!isActive}
-      className={`${className} ${
-        isActive
-          ? "window-scroll block h-full overflow-y-auto overscroll-contain"
-          : "hidden"
-      }`}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 10 }}
-      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.section>
-  );
-}
-
-function InfoCard({
-  icon: Icon,
-  title,
-  text,
-}: {
-  key?: string;
-  icon: LucideIcon;
-  title: string;
-  text: string;
-}) {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.article
-      variants={fadeUp}
-      transition={motionTransition(Boolean(reduceMotion))}
-      whileHover={reduceMotion ? undefined : { y: -4 }}
-      className="border border-brand-violet/12 bg-brand-bg p-6 transition hover:bg-brand-orange-light/16"
-    >
-      <Icon className="h-7 w-7 text-brand-violet/76" />
-      <h3 className="mt-8 text-lg font-semibold text-brand-violet">{title}</h3>
-      <p className="mt-3 text-sm leading-6 text-brand-violet/66">{text}</p>
-    </motion.article>
-  );
-}
-
-function MethodCard({
-  icon: Icon,
-  label,
-  title,
-  text,
-}: {
-  key?: string;
-  icon: LucideIcon;
-  label: string;
-  title: string;
-  text: string;
-}) {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.article
-      variants={fadeUp}
-      transition={motionTransition(Boolean(reduceMotion))}
-      whileHover={reduceMotion ? undefined : { y: -4 }}
-      className="border border-brand-bg/14 bg-brand-bg/[0.04] p-6"
-    >
-      <div className="flex items-center justify-between gap-4">
-        <Icon className="h-7 w-7 text-brand-yellow" />
-        <span className="text-xs font-semibold tracking-[0.2em] text-brand-orange-light">
-          {label}
-        </span>
-      </div>
-      <h3 className="mt-8 text-lg font-semibold uppercase tracking-[0.14em]">
-        {title}
-      </h3>
-      <p className="mt-4 text-sm leading-6 text-brand-bg/68">{text}</p>
-    </motion.article>
-  );
-}
-
-function ServiceCard({
-  icon: Icon,
-  title,
-  text,
-}: {
-  key?: string;
-  icon: LucideIcon;
-  title: string;
-  text: string;
-}) {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.article
-      variants={fadeUp}
-      transition={motionTransition(Boolean(reduceMotion))}
-      whileHover={reduceMotion ? undefined : { y: -4 }}
-      className="group border border-brand-violet/12 bg-brand-paper p-7 transition hover:bg-brand-orange-light/18"
-    >
-      <Icon className="h-8 w-8 text-brand-violet/72" />
-      <h3 className="mt-10 text-xl font-semibold text-brand-violet">{title}</h3>
-      <p className="mt-4 leading-7 text-brand-violet/68">{text}</p>
-      <a
-        href={whatsappHref}
-        className="mt-8 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-violet"
-      >
-        Conversar
-        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-      </a>
-    </motion.article>
-  );
-}
-
-function ProjectCard({
-  title,
-  type,
-  status,
-  text,
-  metrics,
-}: {
-  key?: string;
-  title: string;
-  type: string;
-  status: string;
-  text: string;
-  metrics: string[];
-}) {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.article
-      variants={fadeUp}
-      transition={motionTransition(Boolean(reduceMotion))}
-      whileHover={reduceMotion ? undefined : { y: -4 }}
-      className="border border-brand-violet/12 bg-brand-paper p-7"
-    >
-      <div className="flex items-start justify-between gap-5">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-slate">
-            {type}
-          </p>
-          <h3 className="mt-4 text-2xl font-semibold text-brand-violet">
-            {title}
-          </h3>
-        </div>
-        <span className="shrink-0 border border-brand-violet/10 bg-brand-bg px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-violet/70">
-          {status}
-        </span>
-      </div>
-      <p className="mt-5 leading-7 text-brand-violet/68">{text}</p>
-      <div className="mt-7 flex flex-wrap gap-2">
-        {metrics.map((metric) => (
-          <span
-            key={metric}
-            className="border border-brand-violet/10 bg-brand-bg px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-brand-violet/70"
-          >
-            {metric}
-          </span>
-        ))}
-      </div>
-    </motion.article>
-  );
-}
-
-function ResultCard({ value, text }: { key?: string; value: string; text: string }) {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.article
-      variants={fadeUp}
-      transition={motionTransition(Boolean(reduceMotion))}
-      whileHover={reduceMotion ? undefined : { y: -4 }}
-      className="border border-brand-violet/12 bg-brand-paper p-7"
-    >
-      <BarChart3 className="h-7 w-7 text-brand-violet/72" />
-      <h3 className="mt-10 text-2xl font-semibold text-brand-violet">
-        {value}
-      </h3>
-      <p className="mt-4 leading-7 text-brand-violet/68">{text}</p>
-    </motion.article>
-  );
-}
-
-function MotionLink({
-  href,
-  className,
-  reduceMotion,
-  children,
-  onClick,
-}: {
-  href: string;
-  className: string;
-  reduceMotion: boolean;
-  children: ReactNode;
-  onClick?: MouseEventHandler<HTMLAnchorElement>;
-}) {
-  return (
-    <motion.a
-      href={href}
-      className={className}
-      onClick={onClick}
-      whileHover={reduceMotion ? undefined : { y: -2 }}
-      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-    >
-      {children}
-    </motion.a>
-  );
-}
-
-function NodeField({ reduceMotion }: { reduceMotion: boolean }) {
-  const nodes = [
-    { top: "19%", left: "59%", size: "h-3 w-3", color: "bg-brand-yellow" },
-    { top: "26%", left: "70%", size: "h-2 w-2", color: "bg-brand-slate" },
-    { top: "40%", left: "54%", size: "h-4 w-4", color: "bg-brand-orange-light" },
-    { top: "52%", left: "81%", size: "h-3 w-3", color: "bg-brand-yellow" },
-    { top: "69%", left: "63%", size: "h-5 w-5", color: "bg-brand-violet" },
-  ];
-
-  return (
-    <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 overflow-hidden lg:block">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,253,248,0.72),transparent_34%)]" />
-      <svg
-        viewBox="0 0 640 520"
-        className="absolute inset-0 h-full w-full opacity-35"
-        aria-hidden="true"
-      >
-        <path
-          d="M80 210 L230 95 L420 135 L555 245 L390 410 L165 360 Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          className="text-brand-slate"
-        />
-        <path
-          d="M230 95 L390 410 M80 210 L420 135 M165 360 L555 245"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          className="text-brand-yellow"
-        />
-      </svg>
-      {nodes.map((node, index) => (
-        <motion.span
-          key={`${node.top}-${node.left}`}
-          className={`absolute rounded-full ${node.size} ${node.color}`}
-          style={{ top: node.top, left: node.left }}
-          animate={
-            reduceMotion
-              ? undefined
-              : { opacity: [0.65, 1, 0.65], scale: [1, 1.08, 1] }
-          }
-          transition={
-            reduceMotion
-              ? undefined
-              : { duration: 3.4, delay: index * 0.35, repeat: Infinity }
-          }
-        />
-      ))}
     </div>
   );
 }
