@@ -148,21 +148,21 @@ export default function App() {
       </header>
 
       <main className="relative z-10">
-        <section className="mx-auto grid min-h-screen max-w-6xl grid-cols-1 items-center gap-12 px-6 pb-20 pt-36 md:px-12 lg:grid-cols-12">
+        <section className="mx-auto grid min-h-screen max-w-6xl grid-cols-1 items-center gap-12 overflow-hidden px-6 pb-20 pt-36 md:px-12 lg:grid-cols-12">
           <motion.div
-            className="flex flex-col gap-6 lg:col-span-8"
+            className="flex min-w-0 max-w-full flex-col gap-6 lg:col-span-8"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <small className="font-mono text-xs uppercase tracking-[0.24em] text-[#A9B99B]">
+            <small className="max-w-[19rem] font-mono text-[10px] uppercase leading-5 tracking-[0.14em] text-[#A9B99B] sm:max-w-full sm:text-xs sm:tracking-[0.24em]">
               Estudio pequeño de tecnología práctica
             </small>
-            <h1 className="font-serif text-5xl leading-[0.96] tracking-tight text-[#EFE8D7] md:text-7xl lg:text-8xl">
+            <h1 className="max-w-[19rem] font-serif text-[2.25rem] leading-[1.02] tracking-tight text-[#EFE8D7] sm:max-w-full sm:text-5xl md:text-7xl lg:text-8xl">
               Primero entendemos. <br />
               <span className="text-[#D8C7A6]">Luego construimos.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-lg font-light leading-relaxed text-[#EFE8D7]/74 md:text-xl">
+            <p className="mt-4 max-w-[20rem] text-base font-light leading-relaxed text-[#EFE8D7]/74 sm:max-w-xl md:text-xl">
               Observamos cómo trabaja tu negocio, escuchamos a tu equipo y creamos herramientas digitales que ordenan el trabajo real.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -170,13 +170,13 @@ export default function App() {
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full bg-[#EFE8D7] px-6 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-[#25302B] transition-all duration-300 hover:bg-[#A9B99B]"
+                className="inline-flex w-full items-center justify-center rounded-full bg-[#EFE8D7] px-5 py-4 text-center text-xs font-semibold uppercase tracking-[0.12em] text-[#25302B] transition-all duration-300 hover:bg-[#A9B99B] sm:w-auto sm:px-6 sm:text-sm sm:tracking-[0.14em]"
               >
                 Hablemos de tu operación
               </a>
               <a
                 href="#enfoque"
-                className="inline-flex items-center justify-center rounded-full border border-[#EFE8D7]/20 px-6 py-4 text-sm font-medium uppercase tracking-[0.14em] text-[#EFE8D7] transition-all duration-300 hover:border-[#EFE8D7]/40 hover:bg-[#EFE8D7]/8"
+                className="inline-flex w-full items-center justify-center rounded-full border border-[#EFE8D7]/20 px-5 py-4 text-xs font-medium uppercase tracking-[0.12em] text-[#EFE8D7] transition-all duration-300 hover:border-[#EFE8D7]/40 hover:bg-[#EFE8D7]/8 sm:w-auto sm:px-6 sm:text-sm sm:tracking-[0.14em]"
               >
                 Ver enfoque
               </a>
@@ -190,12 +190,14 @@ export default function App() {
             transition={{ delay: 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="logo-hero-orbit">
-              <div className="absolute inset-6 rounded-full border border-dashed border-[#D8C7A6]/28" />
-              <img
-                src={kikubaLogo}
-                alt="Logo Kikuba"
-                className="logo-hero-image"
-              />
+              <div className="logo-hero-crop" aria-hidden="true">
+                <img
+                  src={kikubaLogo}
+                  alt=""
+                  className="logo-hero-image"
+                />
+              </div>
+              <span className="sr-only">Marca de Kikuba: tlacuache geométrico.</span>
             </div>
           </motion.div>
         </section>

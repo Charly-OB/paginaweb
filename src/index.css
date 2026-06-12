@@ -82,35 +82,48 @@
 .logo-hero-orbit {
   position: relative;
   display: flex;
-  width: 20rem;
-  height: 20rem;
+  width: 24rem;
+  height: 24rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(169, 185, 155, 0.14);
   border-radius: 999px;
 }
 
 .logo-hero-orbit::before {
   position: absolute;
-  width: 13.5rem;
-  height: 13.5rem;
+  width: 21rem;
+  height: 21rem;
   content: "";
   border-radius: 999px;
   background:
-    radial-gradient(circle, rgba(239, 232, 215, 0.14), rgba(216, 199, 166, 0.04) 58%, transparent 70%);
-  filter: blur(2px);
+    radial-gradient(circle, rgba(239, 232, 215, 0.19), rgba(216, 199, 166, 0.085) 38%, rgba(169, 185, 155, 0.035) 60%, transparent 74%);
+  filter: blur(14px);
+}
+
+.logo-hero-crop {
+  position: relative;
+  z-index: 10;
+  width: 22.25rem;
+  height: 20.1rem;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .logo-hero-image {
   position: relative;
-  z-index: 10;
-  width: 15.5rem;
+  width: 24.25rem;
   max-width: none;
   object-fit: contain;
-  opacity: 0.96;
+  opacity: 0.98;
+  transform: translateY(-2.85rem);
   filter:
-    drop-shadow(0 28px 54px rgba(0, 0, 0, 0.24))
-    drop-shadow(0 0 22px rgba(239, 232, 215, 0.08));
+    brightness(1.16)
+    contrast(1.12)
+    saturate(1.04)
+    drop-shadow(0 32px 62px rgba(0, 0, 0, 0.3))
+    drop-shadow(0 0 34px rgba(239, 232, 215, 0.14));
 }
 
 .window-scroll {
