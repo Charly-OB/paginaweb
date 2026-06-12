@@ -148,9 +148,9 @@ export default function App() {
       </header>
 
       <main className="relative z-10">
-        <section className="mx-auto grid min-h-screen max-w-6xl grid-cols-1 items-center gap-12 overflow-hidden px-6 pb-20 pt-36 md:px-12 lg:grid-cols-12">
+        <section className="mx-auto grid min-h-screen max-w-6xl grid-cols-1 items-center gap-14 overflow-hidden px-6 pb-20 pt-36 md:px-12 lg:grid-cols-12">
           <motion.div
-            className="flex min-w-0 max-w-full flex-col gap-6 lg:col-span-8"
+            className="flex min-w-0 max-w-full flex-col gap-6 lg:col-span-7"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -158,7 +158,7 @@ export default function App() {
             <small className="max-w-[19rem] font-mono text-[10px] uppercase leading-5 tracking-[0.14em] text-[#A9B99B] sm:max-w-full sm:text-xs sm:tracking-[0.24em]">
               Estudio pequeño de tecnología práctica
             </small>
-            <h1 className="max-w-[19rem] font-serif text-[2.25rem] leading-[1.02] tracking-tight text-[#EFE8D7] sm:max-w-full sm:text-5xl md:text-7xl lg:text-8xl">
+            <h1 className="max-w-[19rem] font-serif text-[2.25rem] leading-[1.02] tracking-tight text-[#EFE8D7] sm:max-w-full sm:text-5xl md:text-6xl lg:text-[5.55rem]">
               Primero entendemos. <br />
               <span className="text-[#D8C7A6]">Luego construimos.</span>
             </h1>
@@ -184,7 +184,7 @@ export default function App() {
           </motion.div>
 
           <motion.div
-            className="hidden justify-end lg:col-span-4 lg:flex"
+            className="hidden justify-center lg:col-span-5 lg:flex"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}

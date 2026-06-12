@@ -82,8 +82,8 @@
 .logo-hero-orbit {
   position: relative;
   display: flex;
-  width: 24rem;
-  height: 24rem;
+  width: 28rem;
+  height: 28rem;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
@@ -91,8 +91,8 @@
 
 .logo-hero-orbit::before {
   position: absolute;
-  width: 21rem;
-  height: 21rem;
+  width: 24rem;
+  height: 24rem;
   content: "";
   border-radius: 999px;
   background:
@@ -103,8 +103,8 @@
 .logo-hero-crop {
   position: relative;
   z-index: 10;
-  width: 22.25rem;
-  height: 20.1rem;
+  width: 25.5rem;
+  height: 23rem;
   overflow: hidden;
   display: flex;
   align-items: flex-start;
@@ -113,11 +113,11 @@
 
 .logo-hero-image {
   position: relative;
-  width: 24.25rem;
+  width: 27.75rem;
   max-width: none;
   object-fit: contain;
   opacity: 0.98;
-  transform: translateY(-2.85rem);
+  transform: translateY(-3.25rem);
   filter:
     brightness(1.16)
     contrast(1.12)
